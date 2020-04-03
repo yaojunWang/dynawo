@@ -117,7 +117,7 @@ ModelLoad::initSize() {
   }
 }
 
-void ModelLoad::evalYType() {
+void ModelLoad::evalStaticYType() {
   unsigned int yTypeIndex = 0;
   if (isControllable_) {
     yType_[yTypeIndex] = EXTERNAL;  // DeltaPc
@@ -134,7 +134,7 @@ void ModelLoad::evalYType() {
   }
 }
 
-void ModelLoad::evalFType() {
+void ModelLoad::evalStaticFType() {
   if (isRestorative_) {
     fType_[0] = DIFFERENTIAL_EQ;  // differential equations
     fType_[1] = DIFFERENTIAL_EQ;
