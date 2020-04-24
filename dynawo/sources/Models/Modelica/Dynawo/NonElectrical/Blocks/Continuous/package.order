@@ -1,2 +1,6 @@
 PIAntiWindup
 PIAntiWindupVariableLimits
+IntegratorSetFreeze
+LimPIDFreeze
+VarLimPIDFreeze
+RateLimFirstOrderFreeze

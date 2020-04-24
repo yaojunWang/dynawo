@@ -2,9 +2,7 @@ within Dynawo.Electrical.Controls.PLL;
 
 model PLL "Phase-Locked Loop"
 
-  import Modelica.Blocks;
-  import Modelica.ComplexBlocks;
-  import Modelica.Constants;
+  import Modelica;
 
   import Dynawo.Connectors;
   import Dynawo.Types;
@@ -15,39 +13,39 @@ model PLL "Phase-Locked Loop"
   parameter Types.PerUnit OmegaMaxPu "Upper frequency limit";
 
   // Inputs:
-  ComplexBlocks.Interfaces.ComplexInput uPu(re(start = u0Pu.re), im(start = u0Pu.im)) "Complex voltage at PCC (pu base UNom)" annotation(
-    Placement(visible = true, transformation(origin = {-116, 29}, extent = {{-17, -17}, {17, 17}}, rotation = 0), iconTransformation(origin = {-101, 51}, extent = {{-9, -9}, {9, 9}}, rotation = 0)));
-  Blocks.Interfaces.RealInput omegaRefPu(start = SystemBase.omegaRef0Pu) "Reference frequency of the system. Either connected to the reference machine or the center of inertia frequency or set be constant 1." annotation(
-    Placement(visible = true, transformation(origin = {-117, -70}, extent = {{-18, -18}, {18, 18}}, rotation = 0), iconTransformation(origin = {-101, -47}, extent = {{-9, -9}, {9, 9}}, rotation = 0)));
+  Modelica.ComplexBlocks.Interfaces.ComplexInput uPu(re(start = u0Pu.re), im(start = u0Pu.im)) "Complex voltage at PCC (pu base UNom)" annotation(
+    Placement(visible = true, transformation(origin = {-116, 29}, extent = {{-17, -17}, {17, 17}}, rotation = 0), iconTransformation(origin = {-110, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Interfaces.RealInput omegaRefPu(start = SystemBase.omegaRef0Pu) "Reference frequency of the system. Either connected to the reference machine or the center of inertia frequency or set be constant 1." annotation(
+    Placement(visible = true, transformation(origin = {-117, -70}, extent = {{-18, -18}, {18, 18}}, rotation = 0), iconTransformation(origin = {-110, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 
   // Outputs:
-  Blocks.Interfaces.RealOutput omegaPLLPu "Measured Frequency, PLL (pu)" annotation(
-    Placement(visible = true, transformation(origin = {160, -63}, extent = {{-17, -17}, {17, 17}}, rotation = 0), iconTransformation(origin = {106, 50}, extent = {{-8, -8}, {8, 8}}, rotation = 0)));
-  Blocks.Interfaces.RealOutput sinphi "sin(phi) aligned with terminal voltage phasor" annotation(
-    Placement(visible = true, transformation(origin = {160, 53}, extent = {{-17, -17}, {17, 17}}, rotation = 0), iconTransformation(origin = {106, -80}, extent = {{-8, -8}, {8, 8}}, rotation = 0)));
-  Blocks.Interfaces.RealOutput cosphi "cos(phi) aligned with terminal voltage phasor" annotation(
-    Placement(visible = true, transformation(origin = {160, 5}, extent = {{-17, -17}, {17, 17}}, rotation = 0), iconTransformation(origin = {106, -46}, extent = {{-8, -8}, {8, 8}}, rotation = 0)));
+  Modelica.Blocks.Interfaces.RealOutput omegaPLLPu "Measured Frequency, PLL (pu)" annotation(
+    Placement(visible = true, transformation(origin = {160, -63}, extent = {{-17, -17}, {17, 17}}, rotation = 0), iconTransformation(origin = {110, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Interfaces.RealOutput sinphi "sin(phi) aligned with terminal voltage phasor" annotation(
+    Placement(visible = true, transformation(origin = {160, 53}, extent = {{-17, -17}, {17, 17}}, rotation = 0), iconTransformation(origin = {110, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Interfaces.RealOutput cosphi "cos(phi) aligned with terminal voltage phasor" annotation(
+    Placement(visible = true, transformation(origin = {160, 5}, extent = {{-17, -17}, {17, 17}}, rotation = 0), iconTransformation(origin = {110, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 
   // Blocks:
-  Blocks.Math.Product ur_x_sinPhi annotation(
+  Modelica.Blocks.Math.Product ur_x_sinPhi annotation(
     Placement(visible = true, transformation(origin = {-72, 68}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Blocks.Math.Product ui_x_cosPhi annotation(
+  Modelica.Blocks.Math.Product ui_x_cosPhi annotation(
     Placement(visible = true, transformation(origin = {-72, -16}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Blocks.Math.Add uq(k1 = -1, k2 = +1) annotation(
+  Modelica.Blocks.Math.Add uq(k1 = -1, k2 = +1) annotation(
     Placement(visible = true, transformation(origin = {-42, 28}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Blocks.Math.Gain K(k = Kp) annotation(
+  Modelica.Blocks.Math.Gain K(k = Kp) annotation(
     Placement(visible = true, transformation(origin = {0, 52}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Blocks.Continuous.LimIntegrator I(initType = Modelica.Blocks.Types.Init.SteadyState, k = Ki, outMax = OmegaMaxPu - SystemBase.omegaRef0Pu, outMin = SystemBase.omegaRef0Pu - OmegaMinPu) annotation(
+  Modelica.Blocks.Continuous.LimIntegrator I(initType = Modelica.Blocks.Types.Init.SteadyState, k = Ki, outMax = OmegaMaxPu - SystemBase.omegaRef0Pu, outMin = SystemBase.omegaRef0Pu - OmegaMinPu) annotation(
     Placement(visible = true, transformation(origin = {0, 8}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Blocks.Math.Add dOmega(k1 = +1, k2 = +1) annotation(
+  Modelica.Blocks.Math.Add dOmega(k1 = +1, k2 = +1) annotation(
     Placement(visible = true, transformation(origin = {40, 28}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Blocks.Continuous.Integrator Phi(initType = Modelica.Blocks.Types.Init.SteadyState, k = SystemBase.omegaNom) annotation(
+  Modelica.Blocks.Continuous.Integrator Phi(initType = Modelica.Blocks.Types.Init.SteadyState, k = SystemBase.omegaNom) annotation(
     Placement(visible = true, transformation(origin = {76, 28}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Blocks.Math.Sin sinPhi annotation(
+  Modelica.Blocks.Math.Sin sinPhi annotation(
     Placement(visible = true, transformation(origin = {116, 52}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Blocks.Math.Cos cosPhi annotation(
+  Modelica.Blocks.Math.Cos cosPhi annotation(
     Placement(visible = true, transformation(origin = {116, 4}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Blocks.Math.Add OmegaRad(k1 = +1, k2 = +1) annotation(
+  Modelica.Blocks.Math.Add OmegaRad(k1 = +1, k2 = +1) annotation(
     Placement(visible = true, transformation(origin = {78, -64}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 
 protected
@@ -108,8 +106,8 @@ annotation(preferredView = "diagram",
 <p> If uq is zero, the internal phasor is locked with the measured phasor and rotates with the same frequency.</p>
 
 </html>"),
-    Icon(graphics = {Rectangle(origin = {-1, 0}, extent = {{-99, 100}, {101, -100}}), Text(origin = {-48, 33}, extent = {{148, -85}, {-44, 19}}, textString = "PLL")}, coordinateSystem(extent = {{-100, -100}, {150, 100}})),
     Diagram(coordinateSystem(extent = {{-100, -100}, {150, 100}})),
-    __OpenModelica_commandLineOptions = "");
+    __OpenModelica_commandLineOptions = "",
+    Icon(graphics = {Rectangle(extent = {{-100, 100}, {100, -100}}), Text(origin = {-31, 8}, extent = {{-41, 32}, {109, -52}}, textString = "PLL"), Text(origin = {131, 69}, extent = {{-23, 13}, {37, -19}}, textString = "omegaPu"), Text(origin = {-161, -59}, extent = {{-47, 45}, {37, -19}}, textString = "omegaRefPu"), Text(origin = {-140, 80}, extent = {{-10, 6}, {16, -24}}, textString = "uPu")}, coordinateSystem(initialScale = 0.1)));
 
 end PLL;

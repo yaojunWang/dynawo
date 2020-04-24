@@ -51,6 +51,7 @@ set(MODELICA_PREASSEMBLED_MODELS
     TapChangerBlockingArea.xml
     TransformerFixedRatio.xml
     UnderVoltageAutomaton.xml
+    PhotovoltaicsWeccCurrentSource.xml
     )
 
 # PYTHON scripts preassembled models

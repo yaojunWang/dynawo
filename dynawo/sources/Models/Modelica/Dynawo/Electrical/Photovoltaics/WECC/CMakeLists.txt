@@ -1,4 +1,4 @@
-# Copyright (c) 2015-2019, RTE (http://www.rte-france.com)
+# Copyright (c) 2015-2020, RTE (http://www.rte-france.com)
 # See AUTHORS.txt
 # All rights reserved.
 # This Source Code Form is subject to the terms of the Mozilla Public
@@ -8,18 +8,10 @@
 #
 # This file is part of Dynawo, an hybrid C++/Modelica open source time domain simulation tool for power systems.
 
-add_subdirectory(Current C)
-add_subdirectory(Converters I)
-add_subdirectory(Machines M)
-add_subdirectory(Voltage V)
-add_subdirectory(Generic G)
-add_subdirectory(Transformers T)
-add_subdirectory(Basics B)
-add_subdirectory(PLL P)
-add_subdirectory(WECC W)
-
 set(MODEL_FILES
     package.mo
+    PVCurrentSource.mo
+    PVCurrentSource.extvar
     )
 
 #
