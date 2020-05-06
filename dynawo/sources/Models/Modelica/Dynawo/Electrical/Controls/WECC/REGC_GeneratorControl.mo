@@ -23,15 +23,15 @@ model REGC_GeneratorControl "WECC PV Generator Control REGC"
   //Inputs
   Modelica.Blocks.Interfaces.RealInput idCmdPu(start = Id0Pu) "Id setpoint from electrical control in p.u (base SNom)" annotation(
     Placement(visible = true, transformation(origin = {-168, -74}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealInput iqCmdPu(start = -Iq0Pu) "Iq setpoint from electrical control in p.u (base SNom)" annotation(
+  Modelica.Blocks.Interfaces.RealInput iqCmdPu(start = Iq0Pu) "Iq setpoint from electrical control in p.u (base SNom)" annotation(
     Placement(visible = true, transformation(origin = {-168, 50}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealInput UPu(start = U0Pu) "Inverter terminal voltage magnitude in pu" annotation(
+  Modelica.Blocks.Interfaces.RealInput UPu(start = UInj0Pu) "Inverter terminal voltage magnitude in pu" annotation(
     Placement(visible = true, transformation(origin = {-168, -30}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-59, 111}, extent = {{-9, -9}, {9, 9}}, rotation = -90)));
 
   // Outputs
   Modelica.Blocks.Interfaces.RealOutput idRefPu(start = Id0Pu) "Id setpoint to injector in p.u (injector convention) (base SNom)" annotation(
     Placement(visible = true, transformation(origin = {158, -86}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealOutput iqRefPu(start = Iq0Pu) "Iq setpoint to injector in p.u (injector convention) (base SNom)" annotation(
+  Modelica.Blocks.Interfaces.RealOutput iqRefPu(start = -Iq0Pu) "Iq setpoint to injector in p.u (injector convention) (base SNom)" annotation(
     Placement(visible = true, transformation(origin = {158, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, -62}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.BooleanInput FRTon "Boolean signal for iq ramp after fault: true if FRT detected, false otherwise " annotation(
     Placement(visible = true, transformation(origin = {-168, 126}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, 1.77636e-15}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -39,11 +39,11 @@ model REGC_GeneratorControl "WECC PV Generator Control REGC"
   //Blocks
   Modelica.Blocks.Sources.BooleanConstant RateFlag_const(k = RateFlag)  annotation(
     Placement(visible = true, transformation(origin = {-36, -14}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Continuous.FirstOrder UPu_filt(T = Tfltr, k = 1, y(fixed = true, start = U0Pu)) annotation(
+  Modelica.Blocks.Continuous.FirstOrder UPu_filt(T = Tfltr, k = 1, y(fixed = true, start = UInj0Pu), y_start = UInj0Pu) annotation(
     Placement(visible = true, transformation(origin = {-102, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Logical.Switch VDependencySwitch annotation(
     Placement(visible = true, transformation(origin = {4, -38}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Constant Unom_fix1(k = 1)  annotation(
+  Modelica.Blocks.Sources.Constant Unom_fix1(k = UInj0Pu)  annotation(
     Placement(visible = true, transformation(origin = {-36, -46}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Math.Product Pcmd annotation(
     Placement(visible = true, transformation(origin = {-102, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -53,13 +53,13 @@ model REGC_GeneratorControl "WECC PV Generator Control REGC"
     Placement(visible = true, transformation(origin = {62, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Nonlinear.Limiter UPu_NonZero(limitsAtInit = true, uMax = 999, uMin = 0.01)  annotation(
     Placement(visible = true, transformation(origin = {-66, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Dynawo.NonElectrical.Blocks.Continuous.RateLimFirstOrderFreeze Iqcmd_Filt(T = Tg, initType = Modelica.Blocks.Types.Init.SteadyState, use_rateLim = true)  annotation(
+  Dynawo.NonElectrical.Blocks.Continuous.RateLimFirstOrderFreeze Iqcmd_Filt(T = Tg, initType = Modelica.Blocks.Types.Init.SteadyState, use_rateLim = true, y_start = Iq0Pu)  annotation(
     Placement(visible = true, transformation(origin = {4, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Constant Iqrmax_const(k = Iqrmax) annotation(
     Placement(visible = true, transformation(origin = {-116, 84}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Constant Iqrmin_const(k = Iqrmin) annotation(
     Placement(visible = true, transformation(origin = {-116, 34}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Dynawo.NonElectrical.Blocks.Continuous.RateLimFirstOrderFreeze Pcmd_Filt(T = Tg, k = 1, use_rateLim = true) annotation(
+  Dynawo.NonElectrical.Blocks.Continuous.RateLimFirstOrderFreeze Pcmd_Filt(T = Tg, k = 1, use_rateLim = true, y_start = Id0Pu*UInj0Pu) annotation(
     Placement(visible = true, transformation(origin = {74, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Constant rrpwr_pos_const(k = rrpwr) annotation(
     Placement(visible = true, transformation(origin = {44, -64}, extent = {{-8, -8}, {8, 8}}, rotation = 0)));
@@ -78,7 +78,7 @@ model REGC_GeneratorControl "WECC PV Generator Control REGC"
 
 protected
 
-  parameter Types.VoltageModulePu U0Pu "Start value of voltage amplitude at injector terminal in p.u";
+  parameter Types.VoltageModulePu UInj0Pu "Start value of voltage amplitude at injector terminal in p.u";
   parameter Types.CurrentModulePu Id0Pu "Start value of d-component current at injector terminal in p.u (injector convention) (base SNom)";
   parameter Types.CurrentModulePu Iq0Pu "Start value of q-component current at injector terminal in p.u (injector convention) (base SNom)";
 

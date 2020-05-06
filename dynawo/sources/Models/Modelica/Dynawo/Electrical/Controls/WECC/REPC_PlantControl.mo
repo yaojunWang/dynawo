@@ -49,7 +49,7 @@ model REPC_PlantControl "WECC PV Plant Control REPC"
     Placement(visible = true, transformation(origin = {170, -74}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.BooleanConstant FreqFlag_const(k = FreqFlag) annotation(
     Placement(visible = true, transformation(origin = {130, -74}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Continuous.FirstOrder Pref_lag(T = Tlag, initType = Modelica.Blocks.Types.Init.SteadyState) annotation(
+  Modelica.Blocks.Continuous.FirstOrder Pref_lag(T = Tlag, initType = Modelica.Blocks.Types.Init.SteadyState, y_start = PInj0Pu) annotation(
     Placement(visible = true, transformation(origin = {130, -44}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Constant Zero(k = 0) annotation(
     Placement(visible = true, transformation(origin = {70, -94}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -63,7 +63,7 @@ model REPC_PlantControl "WECC PV Plant Control REPC"
     Placement(visible = true, transformation(origin = {-50, -58}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Nonlinear.Limiter QVErr_Lim(limitsAtInit = true, uMax = eMax, uMin = eMin) annotation(
     Placement(visible = true, transformation(origin = {110, 86}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Continuous.TransferFunction QVext_LeadLag(a = {Tfv, 1}, b = {Tft, 1}, initType = Modelica.Blocks.Types.Init.NoInit) annotation(
+  Modelica.Blocks.Continuous.TransferFunction QVext_LeadLag(a = {Tfv, 1}, b = {Tft, 1}, initType = Modelica.Blocks.Types.Init.NoInit, y_start = QInj0Pu) annotation(
     Placement(visible = true, transformation(origin = {170, 86}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Constant Zero1(k = 0) annotation(
     Placement(visible = true, transformation(origin = {114, 16}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -79,7 +79,7 @@ model REPC_PlantControl "WECC PV Plant Control REPC"
     Placement(visible = true, transformation(origin = {10, 2}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Math.Add UCtrlErr(k2 = -1) annotation(
     Placement(visible = true, transformation(origin = {10, 94}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Continuous.FirstOrder Ubranch_Filt(T = Tfltr, initType = Modelica.Blocks.Types.Init.SteadyState, y_start = if VcompFlag == true then URefPu else U0Pu) annotation(
+  Modelica.Blocks.Continuous.FirstOrder Ubranch_Filt(T = Tfltr, initType = Modelica.Blocks.Types.Init.SteadyState, y_start = if VcompFlag == true then URefPu else UInj0Pu) annotation(
     Placement(visible = true, transformation(origin = {-50, 88}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   BaseControls.calcUPcc calcUPCC1(Rc = Rc, Xc = Xc) annotation(
     Placement(visible = true, transformation(origin = {-174, 112}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -120,10 +120,11 @@ protected
   parameter Types.PerUnit QGen0Pu "Start value of reactive power at regulated bus in p.u (generator convention) (base SNom)";
   parameter Types.PerUnit U0Pu "Start value of voltage magnitude at regulated bus in p.u";
   parameter Types.ComplexPerUnit u0Pu "Start value of complex voltage at regulated bus in p.u";
+  parameter Types.PerUnit UInj0Pu "Start value of voltage magnitude at injector terminal in p.u";
   parameter Types.ComplexPerUnit iInj0Pu "Start value of complex current at regulated bus in p.u (generator convention) (base SNom)";
   parameter Types.PerUnit PInj0Pu "Start value of active power at injector terminal in p.u (generator convention) (base SNom)";
   parameter Types.PerUnit QInj0Pu "Start value of reactive power at injector terminal in p.u (injector convention) (base SNom)";
-  final parameter Types.PerUnit URefPu = if VcompFlag == true then sqrt((u0Pu.re + Rc * iInj0Pu.re - Xc * iInj0Pu.im) ^ 2 + (u0Pu.im + Rc * iInj0Pu.im + Xc * iInj0Pu.re) ^ 2) else (U0Pu + Kc * QGen0Pu) "Voltage setpoint for plant level control, calculated depending on VcompFlag";
+  final parameter Types.PerUnit URefPu = if VcompFlag == true then UInj0Pu else (U0Pu + Kc * QGen0Pu) "Voltage setpoint for plant level control, calculated depending on VcompFlag";
 
 equation
 

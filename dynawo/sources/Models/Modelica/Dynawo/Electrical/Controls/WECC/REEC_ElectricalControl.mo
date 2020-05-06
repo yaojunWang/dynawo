@@ -34,7 +34,7 @@ model REEC_ElectricalControl "WECC PV Electrical Control REEC"
   // Outputs
   Modelica.Blocks.Interfaces.RealOutput idCmdPu(start = Id0Pu) "Id setpoint for generator control in p.u (base SNom)" annotation(
     Placement(visible = true, transformation(origin = {158, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealOutput iqCmdPu(start = -Iq0Pu) "Iq setpoint for generator control in p.u (base SNom)" annotation(
+  Modelica.Blocks.Interfaces.RealOutput iqCmdPu(start = Iq0Pu) "Iq setpoint for generator control in p.u (base SNom)" annotation(
     Placement(visible = true, transformation(origin = {160, -18}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.BooleanOutput FRTon "Boolean signal for iq ramp after fault: true if FRT detected, false otherwise " annotation(
     Placement(visible = true, transformation(origin = {158, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -102,9 +102,9 @@ model REEC_ElectricalControl "WECC PV Electrical Control REEC"
     Placement(visible = true, transformation(origin = {-342, -86}, extent = {{-8, -8}, {8, 8}}, rotation = 0)));
   Modelica.Blocks.Sources.Constant dPmin_const(k = dPmin) annotation(
     Placement(visible = true, transformation(origin = {-342, -120}, extent = {{-8, -8}, {8, 8}}, rotation = 0)));
-  Modelica.Blocks.Continuous.FirstOrder Iq_delay(T = 0.01, initType = Modelica.Blocks.Types.Init.SteadyState, k = 1) annotation(
+  Modelica.Blocks.Continuous.FirstOrder Iq_delay(T = 0.01, initType = Modelica.Blocks.Types.Init.SteadyState, k = 1, y_start = Iq0Pu) annotation(
     Placement(visible = true, transformation(origin = {58, 12}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
-  Modelica.Blocks.Continuous.FirstOrder Id_delay(T = 0.01, initType = Modelica.Blocks.Types.Init.SteadyState, k = 1) annotation(
+  Modelica.Blocks.Continuous.FirstOrder Id_delay(T = 0.01, initType = Modelica.Blocks.Types.Init.SteadyState, k = 1, y_start = Id0Pu) annotation(
     Placement(visible = true, transformation(origin = {58, -136}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Dynawo.NonElectrical.Blocks.Continuous.RateLimFirstOrderFreeze Iqcmd_Filt(T = Tiq, initType = Modelica.Blocks.Types.Init.SteadyState, k = 1, use_freeze = true, use_rateLim = false, y_start = QInj0Pu / UInj0Pu) annotation(
     Placement(visible = true, transformation(origin = {-98, -76}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));

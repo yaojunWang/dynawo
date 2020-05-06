@@ -26,9 +26,6 @@ model PVCurrentSource "WECC PV model with a current source as interface with the
   parameter Types.PerUnit Q0Pu "Start value of reactive power at regulated bus in p.u (receptor convention) (base SnRef)";
   parameter Types.PerUnit U0Pu "Start value of voltage magnitude at regulated bus in p.u.";
   parameter Types.Angle UPhase0 "Start value of voltage phase angle at regulated bus in rad";
-  // At regulated bus (generator convention) (base SNom)
-  final parameter Types.PerUnit PGen0Pu = - P0Pu * SystemBase.SnRef / SNom;
-  final parameter Types.PerUnit QGen0Pu = - Q0Pu * SystemBase.SnRef / SNom;
 
   // Terminal
   Dynawo.Connectors.ACPower terminal(V(re(start = u0Pu.re), im(start = u0Pu.im)), i(re(start = i0Pu.re), im(start = i0Pu.im))) annotation(
@@ -49,11 +46,11 @@ model PVCurrentSource "WECC PV model with a current source as interface with the
     Placement(visible = true, transformation(origin = {-14, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 
   // Blocks:
-  Dynawo.Electrical.Controls.WECC.REPC_PlantControl wecc_repc(Ddn = 20, Dup = 0.001, FreqFlag = true, Kc = 0, Ki = 1.5, Kig = 2.36, Kp = 0.1, Kpg = 0.05, PMax = 1, PMin = 0, QMax = 0.4, QMin = -0.4, Rc = RPu, RefFlag = true, Tfltr = 0.04, Tft = 0, Tfv = 0.1, Tlag = 0.1, Tp = 0.04, VcompFlag = false, Vfrz = 0.0, Xc = XPu, dbd = 0.01, eMax = 999, eMin = -999, fdbd1 = 0.004, fdbd2 = 1, feMax = 999, feMin = -999, iInj0Pu = iInj0Pu, u0Pu = u0Pu, U0Pu = U0Pu, PInj0Pu = PInj0Pu, PGen0Pu = PGen0Pu, QInj0Pu = QInj0Pu, QGen0Pu = QGen0Pu) annotation(
+  Dynawo.Electrical.Controls.WECC.REPC_PlantControl wecc_repc(Ddn = 20, Dup = 0.001, FreqFlag = true, Kc = 0.1769, Ki = 1.5, Kig = 2.36, Kp = 0.1, Kpg = 0.05, PMax = 1, PMin = 0, QMax = 0.4, QMin = -0.4, Rc = RPu * SNom / SystemBase.SnRef, RefFlag = true, Tfltr = 0.04, Tft = 0, Tfv = 0.1, Tlag = 0.1, Tp = 0.04, VcompFlag = false, Vfrz = 0.0, Xc = XPu * SNom / SystemBase.SnRef, dbd = 0.01, eMax = 999, eMin = -999, fdbd1 = 0.004, fdbd2 = 1, feMax = 999, feMin = -999, iInj0Pu = iInj0Pu, u0Pu = u0Pu, U0Pu = U0Pu, UInj0Pu = UInj0Pu, PInj0Pu = PInj0Pu, PGen0Pu = PGen0Pu, QInj0Pu = QInj0Pu, QGen0Pu = QGen0Pu) annotation(
     Placement(visible = true, transformation(origin = {-47, -24}, extent = {{-18, -18}, {18, 18}}, rotation = 0)));
   Dynawo.Electrical.Controls.WECC.REEC_ElectricalControl wecc_reec(Imax = 1.05, Iqh1 = 2, Iql1 = -2, Kqi = 0.5, Kqp = 1, Kqv = 2, Kvi = 1, Kvp = 1, PfFlag = false, Pmax = 1, Pmin = 0, PqFlag = false, QFlag = true, Qmax = 0.4, Qmin = -0.4, Tiq = 0.02, Tp = 0.04, Tpord = 0.02, Trv = 0.02, VFlag = true, Vdip = 0.9, Vmax = 1.1, Vmin = 0.9, Vref0 = 1, Vup = 1.1, dPmax = 999, dPmin = -999, dbd1 = -0.1, dbd2 = 0.1, PInj0Pu = PInj0Pu, QInj0Pu = QInj0Pu, UInj0Pu = UInj0Pu, PF0 = PF0) annotation(
     Placement(visible = true, transformation(origin = {8.30175, -24.3447}, extent = {{-18, -18}, {18, 18}}, rotation = 0)));
-  Dynawo.Electrical.Controls.WECC.REGC_GeneratorControl wecc_regc(Iqrmax = 20, Iqrmin = -20, RateFlag = false, Tfltr = 0.02, Tg = 0.02, rrpwr = 10, U0Pu = UInj0Pu, Id0Pu = Id0Pu, Iq0Pu = Iq0Pu) annotation(
+  Dynawo.Electrical.Controls.WECC.REGC_GeneratorControl wecc_regc(Iqrmax = 20, Iqrmin = -20, RateFlag = false, Tfltr = 0.02, Tg = 0.02, rrpwr = 10, UInj0Pu = UInj0Pu, Id0Pu = Id0Pu, Iq0Pu = Iq0Pu) annotation(
     Placement(visible = true, transformation(origin = {65.8052, -24.3158}, extent = {{-18, -18}, {18, 18}}, rotation = 0)));
   Dynawo.Electrical.Sources.InjectorIDQ injector(Id0Pu = Id0Pu, Iq0Pu = -Iq0Pu, P0Pu = - PInj0Pu * (SNom / SystemBase.SnRef), Q0Pu = - QInj0Pu * (SNom / SystemBase.SnRef), SNom = SNom, U0Pu = UInj0Pu, UPhase0 = UPhaseInj0, i0Pu = -iInj0Pu * (SNom / SystemBase.SnRef), u0Pu = uInj0Pu) annotation(
     Placement(visible = true, transformation(origin = {72, 32}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
@@ -66,24 +63,27 @@ model PVCurrentSource "WECC PV model with a current source as interface with the
   Types.PerUnit PGenPu "Active power at regulated bus in p.u (generator convention) (base SnRef)";
   Types.PerUnit QGenPu "Reactive power at regulated bus in p.u (generator convention) (base SnRef)";
 
-protected
+//protected
 
   // At regulated bus (receptor convention) (base SnRef)
   final parameter Types.ComplexPerUnit u0Pu = ComplexMath.fromPolar(U0Pu, UPhase0);
   final parameter Types.ComplexPerUnit s0Pu = Complex(P0Pu, Q0Pu);
   final parameter Types.ComplexPerUnit i0Pu = ComplexMath.conj(s0Pu / u0Pu);
+  final parameter Types.ComplexPerUnit ZPu = Complex(RPu, XPu);
+  // At regulated bus (generator convention) (base SNom)
+  final parameter Types.PerUnit PGen0Pu = - P0Pu * SystemBase.SnRef / SNom;
+  final parameter Types.PerUnit QGen0Pu = - Q0Pu * SystemBase.SnRef / SNom;
   // At inverter terminal (generator convention) (base SNom)
   final parameter Types.ComplexPerUnit iInj0Pu = -i0Pu * SystemBase.SnRef / SNom;
-  final parameter Types.ComplexPerUnit ZPu = Complex(RPu, XPu);
-  final parameter Types.ComplexPerUnit uInj0Pu = u0Pu -  ZPu * iInj0Pu;
+  final parameter Types.ComplexPerUnit uInj0Pu = u0Pu -  ZPu * i0Pu;
   final parameter Types.ComplexPerUnit sInj0Pu = uInj0Pu * ComplexMath.conj(iInj0Pu);
   final parameter Types.PerUnit UInj0Pu = ComplexMath.'abs'(uInj0Pu);
   final parameter Types.Angle UPhaseInj0 = ComplexMath.arg(uInj0Pu);
   final parameter Types.PerUnit PInj0Pu = ComplexMath.real(sInj0Pu);
   final parameter Types.PerUnit QInj0Pu = ComplexMath.imag(sInj0Pu);
   final parameter Types.PerUnit PF0 = PInj0Pu / max(ComplexMath.'abs'(sInj0Pu), 0.001);
-  final parameter Types.PerUnit Id0Pu = cos(UPhase0) * iInj0Pu.re + sin(UPhase0) * iInj0Pu.im;
-  final parameter Types.PerUnit Iq0Pu = sin(UPhase0) * iInj0Pu.re - cos(UPhase0) * iInj0Pu.im;
+  final parameter Types.PerUnit Id0Pu = cos(UPhaseInj0) * iInj0Pu.re + sin(UPhaseInj0) * iInj0Pu.im;
+  final parameter Types.PerUnit Iq0Pu = sin(UPhaseInj0) * iInj0Pu.re - cos(UPhaseInj0) * iInj0Pu.im;
 
 equation
   connect(wecc_repc.QInjRefPu, wecc_reec.QInjRefPu) annotation(
