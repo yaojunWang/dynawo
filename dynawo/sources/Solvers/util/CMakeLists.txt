@@ -26,6 +26,7 @@ target_link_libraries(dumpSolver
   PRIVATE
     XMLSAXFormatter${LibXML_LINK_SUFFIX}
     dynawo_Common
+    dynawo_Util
     dynawo_SolverCommon
     Boost::system
     Boost::program_options
