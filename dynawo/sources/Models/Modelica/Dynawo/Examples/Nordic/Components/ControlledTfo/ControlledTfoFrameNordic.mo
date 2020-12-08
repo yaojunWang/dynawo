@@ -13,7 +13,7 @@ model ControlledTfoFrameNordic
   
   parameter Util.ControlledTfoParamRecord.tfoPreset tfo;
   
-  Real UMonDummySignal(start = 1); // dummy signal for TapChanger.UMonitored;
+  //Real UMonDummySignal(start = 1); // dummy signal for TapChanger.UMonitored;
   
   Electrical.Controls.Transformers.TapChanger tapChanger(
     tap0(fixed=false), 
@@ -47,14 +47,14 @@ initial algorithm
   tapChanger.tap0 := tfoVariableTap.Tap0;
   
 equation
-  der(UMonDummySignal) = 0;
+  //der(UMonDummySignal) = 0;
   connect(tfoVariableTap.terminal1, terminal1) annotation(
     Line(points = {{-10, 0}, {-100, 0}, {-100, 0}, {-100, 0}}, color = {0, 0, 255}));
   connect(tfoVariableTap.terminal2, terminal2) annotation(
     Line(points = {{10, 0}, {98, 0}, {98, 0}, {98, 0}}, color = {0, 0, 255}));
   connect(tapChanger.tap, tfoVariableTap.tap);
-  //connect(tfoVariableTap.U2Pu, tapChanger.UMonitored);
-  connect(tapChanger.UMonitored.value, UMonDummySignal);
+  connect(tfoVariableTap.U2Pu, tapChanger.UMonitored);
+  //connect(tapChanger.UMonitored.value, UMonDummySignal);
   tapChanger.switchOffSignal1.value = false;
   tapChanger.switchOffSignal2.value = false;
   tfoVariableTap.switchOffSignal1.value = false;
