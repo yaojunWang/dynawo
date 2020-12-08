@@ -1,7 +1,7 @@
 within Dynawo.Examples;
 
 /*
-* Copyright (c) 2015-2019, RTE (http://www.rte-france.com)
+* Copyright (c) 2015-2020, RTE (http://www.rte-france.com)
 * See AUTHORS.txt
 * All rights reserved.
 * This Source Code Form is subject to the terms of the Mozilla Public
@@ -10,14 +10,9 @@ within Dynawo.Examples;
 * SPDX-License-Identifier: MPL-2.0
 *
 * This file is part of Dynawo, an hybrid C++/Modelica open source time domain simulation tool for power systems.
-*/encapsulated package Nordic "Nordic Test System"
-  
-  import Dynawo.Icons;
+*/
+
+package Nordic "Nordic Test System"  
   extends Icons.Package;
-
-
-
-
-  annotation(
-    uses(Dynawo(version = "1.0.1")));
+  annotation();
 end Nordic;
