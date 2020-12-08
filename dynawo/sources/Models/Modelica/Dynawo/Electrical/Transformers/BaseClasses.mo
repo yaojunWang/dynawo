@@ -44,7 +44,7 @@ partial model BaseTransformerVariableTap "Base class for ideal and classical tra
   Placement(visible = true, transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 
   // Input connectors
-  Connectors.ZPin tap (value (start = Tap0)) "Current transformer tap (between 0 and NbTap - 1)";
+  Connectors.ImPin tap (value (start = Tap0)) "Current transformer tap (between 0 and NbTap - 1)";
 
   // Output connectors
   Connectors.ImPin U1Pu (value (start = U10Pu)) "Absolute voltage on side 1";
@@ -69,18 +69,19 @@ protected
   parameter Types.PerUnit rTfo0Pu "Start value of transformer ratio";
 
   // Internal variables
-  discrete Types.PerUnit rTfoPu (start = rTfo0Pu) "Transformation ratio in p.u: U2/U1 in no load conditions";
+  //discrete 
+  Types.PerUnit rTfoPu (start = rTfo0Pu) "Transformation ratio in p.u: U2/U1 in no load conditions";
 
 equation
 
-  when (tap.value <> pre(tap.value)) then
+  //when (tap.value <> pre(tap.value)) then
     // Transformer ratio calculation
     if (NbTap == 1) then
       rTfoPu = rTfoMinPu;
     else
       rTfoPu = rTfoMinPu + (rTfoMaxPu - rTfoMinPu) * (tap.value / (NbTap - 1));
     end if;
-  end when;
+  //end when;
 
   if (running.value) then
     // Variables for display or connection to another model (tap-changer for example)
