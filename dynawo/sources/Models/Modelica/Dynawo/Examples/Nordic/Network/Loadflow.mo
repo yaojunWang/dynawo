@@ -594,5 +594,7 @@ equation
   g19.switchOffSignal3.value = false;
   g19.omegaRefPu.value = 1;
 
-
+annotation(
+    experiment(StartTime = 0, StopTime = 1, Tolerance = 1e-06, Interval = 0.002), __OpenModelica_commandLineOptions = "--daemode", __OpenModelica_simulationFlags(lv = "LOG_STATS", noEquidistantTimeGrid = "()", s = "ida"));
+	
 end Loadflow;

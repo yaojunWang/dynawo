@@ -1,9 +1,7 @@
 within Dynawo.Examples.Nordic.Network;
 
 model Loadflow_plusRegGen
-
   extends StaticNetwork;
-  
   import Modelica.Constants;
   import Modelica.ComplexMath;
   import Modelica.SIunits;
@@ -11,7 +9,6 @@ model Loadflow_plusRegGen
   import Dynawo.Electrical;
   import Dynawo.Types;
   import Dynawo.Examples.Nordic;
-
   Electrical.Buses.InfiniteBus slackbus_g20(UPu = 1.0185, UPhase = SIunits.Conversions.from_deg(0));
   Electrical.Transformers.TransformerFixedRatio trafo_1011_4011(BPu = 0, GPu = 0, RPu = 0, XPu = 0.10 * 0.95 ^ 2 * (100 / 1250.0), rTfoPu = 0.95);
   Electrical.Transformers.TransformerFixedRatio trafo_11_1011(BPu = 0, GPu = 0, RPu = 0, XPu = 0.10 * 1.04 ^ 2 * (100 / 400.0), rTfoPu = 1.04);
@@ -83,226 +80,186 @@ model Loadflow_plusRegGen
   Electrical.Machines.OmegaRef.GeneratorPQ g18(PMin = 0, PMax = 9999, PNom = 1080.0, u0Pu = u0Pu_g18, i0Pu = i0Pu_g18, PGen0Pu = P0Pu_g18, QGen0Pu = Q0Pu_g18, U0Pu = U0Pu_g18, AlphaPuPNom = 0);
   //Electrical.Machines.OmegaRef.GeneratorPQ g19(PMin = 0, PMax = 9999, PNom = 475.0, u0Pu = u0Pu_g19, i0Pu = i0Pu_g19, PGen0Pu = P0Pu_g19, QGen0Pu = Q0Pu_g19, U0Pu = U0Pu_g19, AlphaPuPNom = 0);
   Nordic.Components.ControlledGen.ControlledGenFrameNordic g19(P0Pu = P0Pu_g19, Q0Pu = Q0Pu_g19, U0Pu = 1.03, UPhase0 = SIunits.Conversions.from_deg(0.03), gen = Nordic.Components.ControlledGen.Util.ControlledGenFrameParams.genFramePreset.g19);
-
 protected
   // Generator g09 init values:
   // P0Pu, Q0Pu in SnRef, receptor convention
   final parameter Types.PerUnit P0Pu_g09 = 668.5 / Electrical.SystemBase.SnRef;
   final parameter Types.PerUnit Q0Pu_g09 = 201.3 / Electrical.SystemBase.SnRef;
-
   final parameter Types.PerUnit U0Pu_g09 = 0.9988;
   final parameter Types.Angle UPhase0_g09 = SIunits.Conversions.from_deg(-1.63);
   final parameter Types.ComplexPerUnit s0Pu_g09 = Complex(P0Pu_g09, Q0Pu_g09);
   final parameter Types.ComplexPerUnit u0Pu_g09 = ComplexMath.fromPolar(U0Pu_g09, UPhase0_g09);
   final parameter Types.ComplexPerUnit i0Pu_g09 = -1 * ComplexMath.conj(s0Pu_g09 / u0Pu_g09);
-
   // Generator g01 init values:
   // P0Pu, Q0Pu in SnRef, receptor convention
   final parameter Types.PerUnit P0Pu_g01 = 600.00 / Electrical.SystemBase.SnRef;
   final parameter Types.PerUnit Q0Pu_g01 = 58.3 / Electrical.SystemBase.SnRef;
-
   final parameter Types.PerUnit U0Pu_g01 = 1.0684;
   final parameter Types.Angle UPhase0_g01 = SIunits.Conversions.from_deg(2.59);
   final parameter Types.ComplexPerUnit s0Pu_g01 = Complex(P0Pu_g01, Q0Pu_g01);
   final parameter Types.ComplexPerUnit u0Pu_g01 = ComplexMath.fromPolar(U0Pu_g01, UPhase0_g01);
   final parameter Types.ComplexPerUnit i0Pu_g01 = -1 * ComplexMath.conj(s0Pu_g01 / u0Pu_g01);
-
   // Generator g10 init values:
   // P0Pu, Q0Pu in SnRef, receptor convention
   final parameter Types.PerUnit P0Pu_g10 = 600.0 / Electrical.SystemBase.SnRef;
   final parameter Types.PerUnit Q0Pu_g10 = 255.7 / Electrical.SystemBase.SnRef;
-
   final parameter Types.PerUnit U0Pu_g10 = 1.0157;
   final parameter Types.Angle UPhase0_g10 = SIunits.Conversions.from_deg(0.99);
   final parameter Types.ComplexPerUnit s0Pu_g10 = Complex(P0Pu_g10, Q0Pu_g10);
   final parameter Types.ComplexPerUnit u0Pu_g10 = ComplexMath.fromPolar(U0Pu_g10, UPhase0_g10);
   final parameter Types.ComplexPerUnit i0Pu_g10 = -1 * ComplexMath.conj(s0Pu_g10 / u0Pu_g10);
-
   // Generator g02 init values:
   // P0Pu, Q0Pu in SnRef, receptor convention
   final parameter Types.PerUnit P0Pu_g02 = 300.0 / Electrical.SystemBase.SnRef;
   final parameter Types.PerUnit Q0Pu_g02 = 17.2 / Electrical.SystemBase.SnRef;
-
   final parameter Types.PerUnit U0Pu_g02 = 1.0565;
   final parameter Types.Angle UPhase0_g02 = SIunits.Conversions.from_deg(5.12);
   final parameter Types.ComplexPerUnit s0Pu_g02 = Complex(P0Pu_g02, Q0Pu_g02);
   final parameter Types.ComplexPerUnit u0Pu_g02 = ComplexMath.fromPolar(U0Pu_g02, UPhase0_g02);
   final parameter Types.ComplexPerUnit i0Pu_g02 = -1 * ComplexMath.conj(s0Pu_g02 / u0Pu_g02);
-
   // Generator g03 init values:
   // P0Pu, Q0Pu in SnRef, receptor convention
   final parameter Types.PerUnit P0Pu_g03 = 550.0 / Electrical.SystemBase.SnRef;
   final parameter Types.PerUnit Q0Pu_g03 = 20.9 / Electrical.SystemBase.SnRef;
-
   final parameter Types.PerUnit U0Pu_g03 = 1.0595;
   final parameter Types.Angle UPhase0_g03 = SIunits.Conversions.from_deg(10.27);
   final parameter Types.ComplexPerUnit s0Pu_g03 = Complex(P0Pu_g03, Q0Pu_g03);
   final parameter Types.ComplexPerUnit u0Pu_g03 = ComplexMath.fromPolar(U0Pu_g03, UPhase0_g03);
   final parameter Types.ComplexPerUnit i0Pu_g03 = -1 * ComplexMath.conj(s0Pu_g03 / u0Pu_g03);
-
   // Generator g04 init values:
   // P0Pu, Q0Pu in SnRef, receptor convention
   final parameter Types.PerUnit P0Pu_g04 = 400.0 / Electrical.SystemBase.SnRef;
   final parameter Types.PerUnit Q0Pu_g04 = 30.4 / Electrical.SystemBase.SnRef;
-
   final parameter Types.PerUnit U0Pu_g04 = 1.0339;
   final parameter Types.Angle UPhase0_g04 = SIunits.Conversions.from_deg(8.03);
   final parameter Types.ComplexPerUnit s0Pu_g04 = Complex(P0Pu_g04, Q0Pu_g04);
   final parameter Types.ComplexPerUnit u0Pu_g04 = ComplexMath.fromPolar(U0Pu_g04, UPhase0_g04);
   final parameter Types.ComplexPerUnit i0Pu_g04 = -1 * ComplexMath.conj(s0Pu_g04 / u0Pu_g04);
-
   // Generator g05 init values:
   // P0Pu, Q0Pu in SnRef, receptor convention
   final parameter Types.PerUnit P0Pu_g05 = 200.0 / Electrical.SystemBase.SnRef;
   final parameter Types.PerUnit Q0Pu_g05 = 60.1 / Electrical.SystemBase.SnRef;
-
   final parameter Types.PerUnit U0Pu_g05 = 1.0294;
   final parameter Types.Angle UPhase0_g05 = SIunits.Conversions.from_deg(-12.36);
   final parameter Types.ComplexPerUnit s0Pu_g05 = Complex(P0Pu_g05, Q0Pu_g05);
   final parameter Types.ComplexPerUnit u0Pu_g05 = ComplexMath.fromPolar(U0Pu_g05, UPhase0_g05);
   final parameter Types.ComplexPerUnit i0Pu_g05 = -1 * ComplexMath.conj(s0Pu_g05 / u0Pu_g05);
-
   // Generator g06 init values:
   // P0Pu, Q0Pu in SnRef, receptor convention
   final parameter Types.PerUnit P0Pu_g06 = 360.0 / Electrical.SystemBase.SnRef;
   final parameter Types.PerUnit Q0Pu_g06 = 138.6 / Electrical.SystemBase.SnRef;
-
   final parameter Types.PerUnit U0Pu_g06 = 1.0084;
   final parameter Types.Angle UPhase0_g06 = SIunits.Conversions.from_deg(-59.42);
   final parameter Types.ComplexPerUnit s0Pu_g06 = Complex(P0Pu_g06, Q0Pu_g06);
   final parameter Types.ComplexPerUnit u0Pu_g06 = ComplexMath.fromPolar(U0Pu_g06, UPhase0_g06);
   final parameter Types.ComplexPerUnit i0Pu_g06 = -1 * ComplexMath.conj(s0Pu_g06 / u0Pu_g06);
-
   // Generator g07 init values:
   // P0Pu, Q0Pu in SnRef, receptor convention
   final parameter Types.PerUnit P0Pu_g07 = 180.0 / Electrical.SystemBase.SnRef;
   final parameter Types.PerUnit Q0Pu_g07 = 60.4 / Electrical.SystemBase.SnRef;
-
   final parameter Types.PerUnit U0Pu_g07 = 1.0141;
   final parameter Types.Angle UPhase0_g07 = SIunits.Conversions.from_deg(-68.95);
   final parameter Types.ComplexPerUnit s0Pu_g07 = Complex(P0Pu_g07, Q0Pu_g07);
   final parameter Types.ComplexPerUnit u0Pu_g07 = ComplexMath.fromPolar(U0Pu_g07, UPhase0_g07);
   final parameter Types.ComplexPerUnit i0Pu_g07 = -1 * ComplexMath.conj(s0Pu_g07 / u0Pu_g07);
-
   // Generator g12 init values:
   // P0Pu, Q0Pu in SnRef, receptor convention
   final parameter Types.PerUnit P0Pu_g12 = 310.0 / Electrical.SystemBase.SnRef;
   final parameter Types.PerUnit Q0Pu_g12 = 98.3 / Electrical.SystemBase.SnRef;
-
   final parameter Types.PerUnit U0Pu_g12 = 1.02;
   final parameter Types.Angle UPhase0_g12 = SIunits.Conversions.from_deg(-31.88);
   final parameter Types.ComplexPerUnit s0Pu_g12 = Complex(P0Pu_g12, Q0Pu_g12);
   final parameter Types.ComplexPerUnit u0Pu_g12 = ComplexMath.fromPolar(U0Pu_g12, UPhase0_g12);
   final parameter Types.ComplexPerUnit i0Pu_g12 = -1 * ComplexMath.conj(s0Pu_g12 / u0Pu_g12);
-
   // Generator g08 init values:
   // P0Pu, Q0Pu in SnRef, receptor convention
   final parameter Types.PerUnit P0Pu_g08 = 750.0 / Electrical.SystemBase.SnRef;
   final parameter Types.PerUnit Q0Pu_g08 = 232.6 / Electrical.SystemBase.SnRef;
-
   final parameter Types.PerUnit U0Pu_g08 = 1.0498;
   final parameter Types.Angle UPhase0_g08 = SIunits.Conversions.from_deg(-16.81);
   final parameter Types.ComplexPerUnit s0Pu_g08 = Complex(P0Pu_g08, Q0Pu_g08);
   final parameter Types.ComplexPerUnit u0Pu_g08 = ComplexMath.fromPolar(U0Pu_g08, UPhase0_g08);
   final parameter Types.ComplexPerUnit i0Pu_g08 = -1 * ComplexMath.conj(s0Pu_g08 / u0Pu_g08);
-
   // Generator g11 init values:
   // P0Pu, Q0Pu in SnRef, receptor convention
   final parameter Types.PerUnit P0Pu_g11 = 250.0 / Electrical.SystemBase.SnRef;
   final parameter Types.PerUnit Q0Pu_g11 = 60.7 / Electrical.SystemBase.SnRef;
-
   final parameter Types.PerUnit U0Pu_g11 = 1.0211;
   final parameter Types.Angle UPhase0_g11 = SIunits.Conversions.from_deg(-29.04);
   final parameter Types.ComplexPerUnit s0Pu_g11 = Complex(P0Pu_g11, Q0Pu_g11);
   final parameter Types.ComplexPerUnit u0Pu_g11 = ComplexMath.fromPolar(U0Pu_g11, UPhase0_g11);
   final parameter Types.ComplexPerUnit i0Pu_g11 = -1 * ComplexMath.conj(s0Pu_g11 / u0Pu_g11);
-
   // Generator g13 init values:
   // P0Pu, Q0Pu in SnRef, receptor convention
   final parameter Types.PerUnit P0Pu_g13 = 0.0 / Electrical.SystemBase.SnRef;
   final parameter Types.PerUnit Q0Pu_g13 = 50.1 / Electrical.SystemBase.SnRef;
-
   final parameter Types.PerUnit U0Pu_g13 = 1.017;
   final parameter Types.Angle UPhase0_g13 = SIunits.Conversions.from_deg(-54.3);
   final parameter Types.ComplexPerUnit s0Pu_g13 = Complex(P0Pu_g13, Q0Pu_g13);
   final parameter Types.ComplexPerUnit u0Pu_g13 = ComplexMath.fromPolar(U0Pu_g13, UPhase0_g13);
   final parameter Types.ComplexPerUnit i0Pu_g13 = -1 * ComplexMath.conj(s0Pu_g13 / u0Pu_g13);
-
   // Generator g14 init values:
   // P0Pu, Q0Pu in SnRef, receptor convention
   final parameter Types.PerUnit P0Pu_g14 = 630.0 / Electrical.SystemBase.SnRef;
   final parameter Types.PerUnit Q0Pu_g14 = 295.9 / Electrical.SystemBase.SnRef;
-
   final parameter Types.PerUnit U0Pu_g14 = 1.0454;
   final parameter Types.Angle UPhase0_g14 = SIunits.Conversions.from_deg(-49.9);
   final parameter Types.ComplexPerUnit s0Pu_g14 = Complex(P0Pu_g14, Q0Pu_g14);
   final parameter Types.ComplexPerUnit u0Pu_g14 = ComplexMath.fromPolar(U0Pu_g14, UPhase0_g14);
   final parameter Types.ComplexPerUnit i0Pu_g14 = -1 * ComplexMath.conj(s0Pu_g14 / u0Pu_g14);
-
   // Generator g15 init values:
   // P0Pu, Q0Pu in SnRef, receptor convention
   final parameter Types.PerUnit P0Pu_g15 = 1080.0 / Electrical.SystemBase.SnRef;
   final parameter Types.PerUnit Q0Pu_g15 = 377.9 / Electrical.SystemBase.SnRef;
-
   final parameter Types.PerUnit U0Pu_g15 = 1.0455;
   final parameter Types.Angle UPhase0_g15 = SIunits.Conversions.from_deg(-52.19);
   final parameter Types.ComplexPerUnit s0Pu_g15 = Complex(P0Pu_g15, Q0Pu_g15);
   final parameter Types.ComplexPerUnit u0Pu_g15 = ComplexMath.fromPolar(U0Pu_g15, UPhase0_g15);
   final parameter Types.ComplexPerUnit i0Pu_g15 = -1 * ComplexMath.conj(s0Pu_g15 / u0Pu_g15);
-
   // Generator g16 init values:
   // P0Pu, Q0Pu in SnRef, receptor convention
   final parameter Types.PerUnit P0Pu_g16 = 600.0 / Electrical.SystemBase.SnRef;
   final parameter Types.PerUnit Q0Pu_g16 = 222.6 / Electrical.SystemBase.SnRef;
-
   final parameter Types.PerUnit U0Pu_g16 = 1.0531;
   final parameter Types.Angle UPhase0_g16 = SIunits.Conversions.from_deg(-64.1);
   final parameter Types.ComplexPerUnit s0Pu_g16 = Complex(P0Pu_g16, Q0Pu_g16);
   final parameter Types.ComplexPerUnit u0Pu_g16 = ComplexMath.fromPolar(U0Pu_g16, UPhase0_g16);
   final parameter Types.ComplexPerUnit i0Pu_g16 = -1 * ComplexMath.conj(s0Pu_g16 / u0Pu_g16);
-
   // Generator g17 init values:
   // P0Pu, Q0Pu in SnRef, receptor convention
   final parameter Types.PerUnit P0Pu_g17 = 530.0 / Electrical.SystemBase.SnRef;
   final parameter Types.PerUnit Q0Pu_g17 = 48.7 / Electrical.SystemBase.SnRef;
-
   final parameter Types.PerUnit U0Pu_g17 = 1.0092;
   final parameter Types.Angle UPhase0_g17 = SIunits.Conversions.from_deg(-46.85);
   final parameter Types.ComplexPerUnit s0Pu_g17 = Complex(P0Pu_g17, Q0Pu_g17);
   final parameter Types.ComplexPerUnit u0Pu_g17 = ComplexMath.fromPolar(U0Pu_g17, UPhase0_g17);
   final parameter Types.ComplexPerUnit i0Pu_g17 = -1 * ComplexMath.conj(s0Pu_g17 / u0Pu_g17);
-
   // Generator g18 init values:
   // P0Pu, Q0Pu in SnRef, receptor convention
   final parameter Types.PerUnit P0Pu_g18 = 1060.0 / Electrical.SystemBase.SnRef;
   final parameter Types.PerUnit Q0Pu_g18 = 293.4 / Electrical.SystemBase.SnRef;
-
   final parameter Types.PerUnit U0Pu_g18 = 1.0307;
   final parameter Types.Angle UPhase0_g18 = SIunits.Conversions.from_deg(-43.32);
   final parameter Types.ComplexPerUnit s0Pu_g18 = Complex(P0Pu_g18, Q0Pu_g18);
   final parameter Types.ComplexPerUnit u0Pu_g18 = ComplexMath.fromPolar(U0Pu_g18, UPhase0_g18);
   final parameter Types.ComplexPerUnit i0Pu_g18 = -1 * ComplexMath.conj(s0Pu_g18 / u0Pu_g18);
-
   /*
-  // Generator g19 init values:
-  // P0Pu, Q0Pu in SnRef, receptor convention
-  final parameter Types.PerUnit P0Pu_g19 = 300.0 / Electrical.SystemBase.SnRef;
-  final parameter Types.PerUnit Q0Pu_g19 = 121.2 / Electrical.SystemBase.SnRef;
-
-  final parameter Types.PerUnit U0Pu_g19 = 1.03;
-  final parameter Types.Angle UPhase0_g19 = SIunits.Conversions.from_deg(0.03);
-  final parameter Types.ComplexPerUnit s0Pu_g19 = Complex(P0Pu_g19, Q0Pu_g19);
-  final parameter Types.ComplexPerUnit u0Pu_g19 = ComplexMath.fromPolar(U0Pu_g19, UPhase0_g19);
-  final parameter Types.ComplexPerUnit i0Pu_g19 = -1 * ComplexMath.conj(s0Pu_g19 / u0Pu_g19);
-  */
+    // Generator g19 init values:
+    // P0Pu, Q0Pu in SnRef, receptor convention
+    final parameter Types.PerUnit P0Pu_g19 = 300.0 / Electrical.SystemBase.SnRef;
+    final parameter Types.PerUnit Q0Pu_g19 = 121.2 / Electrical.SystemBase.SnRef;
   
+    final parameter Types.PerUnit U0Pu_g19 = 1.03;
+    final parameter Types.Angle UPhase0_g19 = SIunits.Conversions.from_deg(0.03);
+    final parameter Types.ComplexPerUnit s0Pu_g19 = Complex(P0Pu_g19, Q0Pu_g19);
+    final parameter Types.ComplexPerUnit u0Pu_g19 = ComplexMath.fromPolar(U0Pu_g19, UPhase0_g19);
+    final parameter Types.ComplexPerUnit i0Pu_g19 = -1 * ComplexMath.conj(s0Pu_g19 / u0Pu_g19);
+    */
   // Generator g19 init values:
   // P0Pu, Q0Pu in SnRef, receptor convention
   final parameter Types.PerUnit P0Pu_g19 = -300.0 / Electrical.SystemBase.SnRef;
   final parameter Types.PerUnit Q0Pu_g19 = -121.2 / Electrical.SystemBase.SnRef;
-
 equation
-
   connect(slackbus_g20.terminal, bus_BG20.terminal);
   connect(trafo_1011_4011.terminal1, bus_1011.terminal);
   connect(trafo_1011_4011.terminal2, bus_4011.terminal);
@@ -423,7 +380,6 @@ equation
   connect(g17.terminal, bus_BG17.terminal);
   connect(g18.terminal, bus_BG18.terminal);
   connect(g19.terminal, bus_BG19.terminal);
-
   trafo_1011_4011.switchOffSignal1.value = false;
   trafo_1011_4011.switchOffSignal2.value = false;
   trafo_11_1011.switchOffSignal1.value = false;
@@ -596,12 +552,20 @@ equation
   g18.switchOffSignal2.value = false;
   g18.switchOffSignal3.value = false;
   g18.omegaRefPu.value = 1;
-  /*
+/*
   g19.switchOffSignal1.value = false;
   g19.switchOffSignal2.value = false;
   g19.switchOffSignal3.value = false;
   g19.omegaRefPu.value = 1;
   */
-
-
+  
+/*
+annotation(
+    experiment(StartTime = 0, StopTime = 1, Tolerance = 1e-06, Interval = 0.002),
+    __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian,newInst -d=initialization, -d=aliasConflicts --daemode",
+  __OpenModelica_simulationFlags(lv = "LOG_STATS", noEquidistantTimeGrid = "()", s = "ida"));*/
+  
+annotation(
+    experiment(StartTime = 0, StopTime = 1, Tolerance = 1e-06, Interval = 0.002), __OpenModelica_commandLineOptions = "--daemode", __OpenModelica_simulationFlags(lv = "LOG_STATS", noEquidistantTimeGrid = "()", s = "ida"));
+  
 end Loadflow_plusRegGen;

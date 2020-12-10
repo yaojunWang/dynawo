@@ -234,11 +234,8 @@ equation
   Check_t72_Q = SystemBase.SnRef * ComplexMath.imag(trafo_72_4072.terminal2.V * ComplexMath.conj(trafo_72_4072.terminal2.i));
   Check_t72_UPu = ComplexMath.'abs'(trafo_72_4072.terminal2.V);
   Check_t72_UPhase = SIunits.Conversions.to_deg(ComplexMath.arg(trafo_72_4072.terminal2.V));
-  annotation(
-    uses(Dynawo(version = "1.0.1")),
-    Diagram(coordinateSystem(extent = {{-100, -150}, {100, 150}})),
-    Icon(coordinateSystem(extent = {{-100, -150}, {100, 150}})),
-    version = "",
-    __OpenModelica_commandLineOptions = "",
-    experiment(StartTime = 0, StopTime = 10, Tolerance = 1e-05, Interval = 0.001));
+
+annotation(
+    experiment(StartTime = 0, StopTime = 1, Tolerance = 1e-06, Interval = 0.002), __OpenModelica_commandLineOptions = "--daemode", __OpenModelica_simulationFlags(lv = "LOG_STATS", noEquidistantTimeGrid = "()", s = "ida"));  
+  
 end smallScaleDynamicTest_Gen;

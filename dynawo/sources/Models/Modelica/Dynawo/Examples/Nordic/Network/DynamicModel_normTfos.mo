@@ -406,8 +406,7 @@ equation
   trafo_72_4072.switchOffSignal1.value = false;
   trafo_72_4072.switchOffSignal2.value = false;
 
-
 annotation(
-    experiment(StartTime = 0, StopTime = 1, Tolerance = 1e-6, Interval = 0.002));
+    experiment(StartTime = 0, StopTime = 1, Tolerance = 1e-06, Interval = 0.002), __OpenModelica_commandLineOptions = "--daemode", __OpenModelica_simulationFlags(lv = "LOG_STATS", noEquidistantTimeGrid = "()", s = "ida"));
 
 end DynamicModel_normTfos;
