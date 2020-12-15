@@ -13,6 +13,7 @@ set(MODEL_FILES
     package.mo
     Line.mo
     Line.extvar
+    SimpleRLTest.mo
     )
 
 #

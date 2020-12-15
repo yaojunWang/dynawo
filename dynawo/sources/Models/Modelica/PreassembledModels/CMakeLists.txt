@@ -75,6 +75,7 @@ set(MODELICA_PREASSEMBLED_MODELS
     TransformerFixedRatio.xml
     UnderVoltageAutomaton.xml
     VRRemote.xml
+    SimpleRLTest.xml
     )
 
 # PYTHON scripts preassembled models
