@@ -17,13 +17,10 @@
  * @brief Utility for the dump of pins, parameters, variables, output of a model
  *
  */
-#include <algorithm>
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <dlfcn.h>
 
-#include <boost/algorithm/string.hpp>
 #include <boost/program_options.hpp>
 #include <boost/shared_ptr.hpp>
 

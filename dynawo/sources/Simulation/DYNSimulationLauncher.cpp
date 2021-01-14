@@ -20,8 +20,6 @@
 
 #include <string>
 
-#include <xml/sax/parser/ParserFactory.h>
-
 #include "DYNSimulationLauncher.h"
 #include "DYNMacrosMessage.h"
 #include "DYNTrace.h"
@@ -33,10 +31,7 @@
 #include "JOBXmlImporter.h"
 #include "JOBIterators.h"
 #include "JOBJobsCollection.h"
-#include "JOBJobEntry.h"
 #include "JOBOutputsEntry.h"
-
-namespace parser = xml::sax::parser;
 
 using DYN::Trace;
 using DYN::Simulation;
@@ -57,7 +52,7 @@ void launchSimu(const std::string& jobsFileName) {
   for (job::job_iterator itJobEntry = jobsCollection->begin();
       itJobEntry != jobsCollection->end();
       ++itJobEntry) {
-    Trace::info() << DYNLog(LaunchingJob, (*itJobEntry)->getName()) << Trace::endline;
+    ::TraceInfo() << DYNLog(LaunchingJob, (*itJobEntry)->getName()) << Trace::endline;
 
     boost::shared_ptr<SimulationContext> context = boost::shared_ptr<SimulationContext>(new SimulationContext());
     context->setResourcesDirectory(getMandatoryEnvVar("DYNAWO_RESOURCES_DIR"));
@@ -70,19 +65,19 @@ void launchSimu(const std::string& jobsFileName) {
       simulation = boost::shared_ptr<Simulation>(new Simulation((*itJobEntry), context));
       simulation->init();
     } catch (const DYN::Error& err) {
-      Trace::error() << err.what() << Trace::endline;
+      TraceError() << err.what() << Trace::endline;
       throw;
     } catch (const DYN::MessageError& e) {
-      Trace::error() << e.what() << Trace::endline;
+      TraceError() << e.what() << Trace::endline;
       throw;
     } catch (const char *s) {
-      Trace::error() << s << Trace::endline;
+      TraceError() << s << Trace::endline;
       throw;
     } catch (const std::string & Msg) {
-      Trace::error() << Msg << Trace::endline;
+      TraceError() << Msg << Trace::endline;
       throw;
     } catch (std::exception & exc) {
-      Trace::error() << exc.what() << Trace::endline;
+      TraceError() << exc.what() << Trace::endline;
       throw;
     }
 
@@ -93,38 +88,38 @@ void launchSimu(const std::string& jobsFileName) {
       // Needed as otherwise terminate might crash due to missing staticRef variables
       if (err.key() == DYN::KeyError_t::StateVariableNoReference)
         simulation->activateExportIIDM(false);
-      Trace::error() << err.what() << Trace::endline;
+      TraceError() << err.what() << Trace::endline;
       simulation->terminate();
       throw;
     } catch (const DYN::Terminate& e) {
-      Trace::error() << e.what() << Trace::endline;
+      TraceError() << e.what() << Trace::endline;
       simulation->terminate();
       throw;
     } catch (const DYN::MessageError& e) {
-      Trace::error() << e.what() << Trace::endline;
+      TraceError() << e.what() << Trace::endline;
       simulation->terminate();
       throw;
     } catch (const char *s) {
-      Trace::error() << s << Trace::endline;
+      TraceError() << s << Trace::endline;
       simulation->terminate();
       throw;
     } catch (const std::string & Msg) {
-      Trace::error() << Msg << Trace::endline;
+      TraceError() << Msg << Trace::endline;
       simulation->terminate();
       throw;
     } catch (std::exception & exc) {
-      Trace::error() << exc.what() << Trace::endline;
+      TraceError() << exc.what() << Trace::endline;
       simulation->terminate();
       throw;
     }
     simulation->clean();
-    Trace::info() << DYNLog(EndOfJob, (*itJobEntry)->getName()) << Trace::endline;
+    TraceInfo() << DYNLog(EndOfJob, (*itJobEntry)->getName()) << Trace::endline;
     Trace::resetCustomAppenders();
     Trace::init();
-    Trace::info() << DYNLog(JobSuccess, (*itJobEntry)->getName()) << Trace::endline;
+    TraceInfo() << DYNLog(JobSuccess, (*itJobEntry)->getName()) << Trace::endline;
     if ((*itJobEntry)->getOutputsEntry()) {
       std::string outputsDirectory = createAbsolutePath((*itJobEntry)->getOutputsEntry()->getOutputsDirectory(), context->getWorkingDirectory());
-      Trace::info() << DYNLog(ResultFolder, outputsDirectory) << Trace::endline;
+      TraceInfo() << DYNLog(ResultFolder, outputsDirectory) << Trace::endline;
     }
   }
 }
