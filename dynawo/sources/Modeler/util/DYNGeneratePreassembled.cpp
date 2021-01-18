@@ -224,7 +224,7 @@ int main(int argc, char ** argv) {
 bool verifySharedObject(string modelname) {
   try {
     boost::dll::shared_library lib(modelname);
-    (void)lib;
+    static_cast<void>(lib);
     // we don't use the lib as we check that the library is loadable, which is done in
     // constructor
   }
