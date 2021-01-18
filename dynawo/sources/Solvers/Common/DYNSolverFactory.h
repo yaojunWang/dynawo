@@ -68,7 +68,7 @@ class SolverFactory {
    */
   static boost::shared_ptr<Solver> createSolverFromLib(const std::string& lib);
 
-  boost::shared_ptr<boost::dll::shared_library> lib_;
+  boost::shared_ptr<boost::dll::shared_library> lib_;  ///< Library of the solver
 
  private:
   static SolverFactories factories_;  ///< Factories already available

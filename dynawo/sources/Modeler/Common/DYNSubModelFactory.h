@@ -69,7 +69,7 @@ class SubModelFactory : private boost::noncopyable {
    */
   static boost::shared_ptr<SubModel> createSubModelFromLib(const std::string& lib);
 
-  boost::shared_ptr<boost::dll::shared_library> lib_;
+  boost::shared_ptr<boost::dll::shared_library> lib_;  ///< Library of the submodel
 
  private:
   static SubModelFactories factories_;  ///< Factories already available
