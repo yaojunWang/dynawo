@@ -41,7 +41,7 @@ SolverFactories::SolverFactories() { }
 SolverFactories::~SolverFactories() {
   SolverFactoryIterator iter = factoryMap_.begin();
   for (; iter != factoryMap_.end(); ++iter) {
-    boost::function<destroy_solver_t>& deleteFactory = factoryMapDestroy_.find(iter->first)->second;
+    boost::function<deleteSolverFactory_t>& deleteFactory = factoryMapDelete_.find(iter->first)->second;
 
     deleteFactory(iter->second);
   }
@@ -60,8 +60,8 @@ SolverFactories::add(const std::string& lib, SolverFactory* factory) {
   factoryMap_.insert(std::make_pair(lib, factory));
 }
 
-void SolverFactories::add(const std::string& lib, const boost::function<destroy_solver_t>& deleteFactory) {
-  factoryMapDestroy_.insert(std::make_pair(lib, deleteFactory));
+void SolverFactories::add(const std::string& lib, const boost::function<deleteSolverFactory_t>& deleteFactory) {
+  factoryMapDelete_.insert(std::make_pair(lib, deleteFactory));
 }
 
 boost::shared_ptr<Solver> SolverFactory::createSolverFromLib(const std::string& lib) {
@@ -73,13 +73,13 @@ boost::shared_ptr<Solver> SolverFactory::createSolverFromLib(const std::string& 
   if (factories_.end(iter)) {
     std::string func;
     boost::function<getFactory_t> getFactory;
-    boost::function<destroy_solver_t> deleteFactory;
+    boost::function<deleteSolverFactory_t> deleteFactory;
     try {
       sharedib = boost::make_shared<boost::dll::shared_library>(lib);
       func = "getFactory";
       getFactory = boost::dll::import<getFactory_t>(*sharedib, func.c_str());
       func = "deleteFactory";
-      deleteFactory = boost::dll::import<destroy_solver_t>(*sharedib, func.c_str());
+      deleteFactory = boost::dll::import<deleteSolverFactory_t>(*sharedib, func.c_str());
     } catch (const boost::system::system_error& e) {
       Trace::error() << "Load error :" << e.what() << Trace::endline;
       if (func.empty()) {

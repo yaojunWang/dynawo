@@ -78,7 +78,7 @@ class SubModelFactory : private boost::noncopyable {
 /**
 * @brief function pointer type to destroy a model.
 */
-typedef void destroy_model_t(SubModelFactory*);
+typedef void deleteSubModelFactory_t(SubModelFactory*);
 
 /**
  * @brief SubModelFactories class
@@ -138,11 +138,11 @@ class SubModelFactories : private boost::noncopyable {
    * @param deleteFactory : function pointer to a desctruction method
    * map
    */
-  void add(const std::string& lib, const boost::function<destroy_model_t>& deleteFactory);
+  void add(const std::string& lib, const boost::function<deleteSubModelFactory_t>& deleteFactory);
 
  private:
   std::map<std::string, SubModelFactory*> factoryMap_;  ///< associate a library factory with the name of the library
-  std::map<std::string, boost::function<destroy_model_t> > factoryMapDestroy_;  ///< associate a library factory with its destruction method
+  std::map<std::string, boost::function<deleteSubModelFactory_t> > factoryMapDelete_;  ///< associate a library factory with its destruction method
 };
 
 /**
