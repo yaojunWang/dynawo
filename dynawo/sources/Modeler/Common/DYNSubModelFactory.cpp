@@ -69,24 +69,24 @@ boost::shared_ptr<SubModel> SubModelFactory::createSubModelFromLib(const std::st
   SubModelFactories::SubmodelFactoryIterator iter = factories_.find(lib);
   SubModel* subModel;
   boost::shared_ptr<SubModel> subModelShared;
-  boost::shared_ptr<boost::dll::shared_library> sharedib;
+  boost::shared_ptr<boost::dll::shared_library> sharedLib;
 
   if (factories_.end(iter)) {
     std::string func;
     boost::function<getSubModelFactory_t> getFactory;
     boost::function<deleteSubModelFactory_t> deleteFactory;
 
-    boost::optional<boost::filesystem::path> libPath = getLibrary(lib);
+    boost::optional<boost::filesystem::path> libPath = getLibraryPathFromName(lib);
     if (!libPath.is_initialized()) {
       throw DYNError(DYN::Error::GENERAL, LibraryLoadFailure, lib);
     }
 
     try {
-      sharedib = boost::make_shared<boost::dll::shared_library>(libPath->generic_string());
+      sharedLib = boost::make_shared<boost::dll::shared_library>(libPath->generic_string());
       func = "getFactory";
-      getFactory = boost::dll::import<getSubModelFactory_t>(*sharedib, func.c_str());
+      getFactory = boost::dll::import<getSubModelFactory_t>(*sharedLib, func.c_str());
       func = "deleteFactory";
-      deleteFactory = boost::dll::import<deleteSubModelFactory_t>(*sharedib, func.c_str());
+      deleteFactory = boost::dll::import<deleteSubModelFactory_t>(*sharedLib, func.c_str());
     } catch (const boost::system::system_error& e) {
       Trace::error() << "Load error :" << e.what() << Trace::endline;
       if (func.empty()) {
@@ -97,7 +97,7 @@ boost::shared_ptr<SubModel> SubModelFactory::createSubModelFromLib(const std::st
     }
 
     SubModelFactory* factory = getFactory();
-    factory->lib_ = sharedib;
+    factory->lib_ = sharedLib;
     factories_.add(lib, factory);
     factories_.add(lib, deleteFactory);
     subModel = factory->create();

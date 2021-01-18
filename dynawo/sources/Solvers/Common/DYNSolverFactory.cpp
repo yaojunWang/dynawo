@@ -76,7 +76,7 @@ boost::shared_ptr<Solver> SolverFactory::createSolverFromLib(const std::string& 
     boost::function<getFactory_t> getFactory;
     boost::function<deleteSolverFactory_t> deleteFactory;
 
-    boost::optional<boost::filesystem::path> libPath = getLibrary(lib);
+    boost::optional<boost::filesystem::path> libPath = getLibraryPathFromName(lib);
     if (!libPath.is_initialized()) {
       throw DYNError(DYN::Error::GENERAL, LibraryLoadFailure, lib);
     }

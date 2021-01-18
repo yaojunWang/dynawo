@@ -110,7 +110,7 @@ unsigned getPrecisionAsNbDecimal() {
 }
 
 boost::optional<boost::filesystem::path>
-getLibrary(const std::string& libName) {
+getLibraryPathFromName(const std::string& libName) {
   // local path
   boost::filesystem::path testPath(libName);
   if (boost::filesystem::exists(testPath)) {

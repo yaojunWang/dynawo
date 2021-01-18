@@ -196,7 +196,7 @@ struct mapcompabs {
  *
  * @returns the path of the library file, if found
  */
-boost::optional<boost::filesystem::path> getLibrary(const std::string& libName);
+boost::optional<boost::filesystem::path> getLibraryPathFromName(const std::string& libName);
 
 }  // namespace DYN
 
