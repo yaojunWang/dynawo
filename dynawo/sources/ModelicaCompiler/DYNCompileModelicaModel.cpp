@@ -457,8 +457,8 @@ bool verifySharedObject(const string& library) {
     // constructor
   }
   catch(const std::exception& e) {
-    std::cerr << e.what() << '\n';
-    printf(" DYNCompileModelicaModel: could not open .so by boost dll.");
+    std::cerr << e.what() << std::endl;
+    std::cout << " DYNCompileModelicaModel: could not open " << library << " by boost dll." << std::endl;
     return false;
   }
 
