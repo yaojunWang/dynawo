@@ -21,6 +21,7 @@
 #include <iostream>
 
 #include "DYNTrace.h"
+#include "DYNCommon.h"
 #include "DYNSolverFactory.h"
 #include "DYNMacrosMessage.h"
 
@@ -74,8 +75,14 @@ boost::shared_ptr<Solver> SolverFactory::createSolverFromLib(const std::string& 
     std::string func;
     boost::function<getFactory_t> getFactory;
     boost::function<deleteSolverFactory_t> deleteFactory;
+
+    boost::optional<boost::filesystem::path> libPath = getLibrary(lib);
+    if (!libPath.is_initialized()) {
+      throw DYNError(DYN::Error::GENERAL, LibraryLoadFailure, lib);
+    }
+
     try {
-      sharedib = boost::make_shared<boost::dll::shared_library>(lib);
+      sharedib = boost::make_shared<boost::dll::shared_library>(libPath->generic_string());
       func = "getFactory";
       getFactory = boost::dll::import<getFactory_t>(*sharedib, func.c_str());
       func = "deleteFactory";

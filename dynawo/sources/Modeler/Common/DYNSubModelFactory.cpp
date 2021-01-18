@@ -22,6 +22,7 @@
 #include "DYNSubModelFactory.h"
 #include "DYNTrace.h"
 #include "DYNSubModel.h"
+#include "DYNCommon.h"
 
 #include <boost/dll/import.hpp>
 #include <boost/make_shared.hpp>
@@ -74,8 +75,14 @@ boost::shared_ptr<SubModel> SubModelFactory::createSubModelFromLib(const std::st
     std::string func;
     boost::function<getSubModelFactory_t> getFactory;
     boost::function<deleteSubModelFactory_t> deleteFactory;
+
+    boost::optional<boost::filesystem::path> libPath = getLibrary(lib);
+    if (!libPath.is_initialized()) {
+      throw DYNError(DYN::Error::GENERAL, LibraryLoadFailure, lib);
+    }
+
     try {
-      sharedib = boost::make_shared<boost::dll::shared_library>(lib);
+      sharedib = boost::make_shared<boost::dll::shared_library>(libPath->generic_string());
       func = "getFactory";
       getFactory = boost::dll::import<getSubModelFactory_t>(*sharedib, func.c_str());
       func = "deleteFactory";
