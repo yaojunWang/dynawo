@@ -187,9 +187,9 @@ ServiceManagerInterfaceIIDM::getRegulatedBusOnSide(const powsybl::iidm::Terminal
     case ComponentInterface::THREE_WTFO: {
       boost::shared_ptr<ThreeWTransformerInterface> ThreeWTransf = boost::dynamic_pointer_cast<ThreeWTransformerInterface>(regulatedComponent);
       const auto& ThreeWTransfIIDM = dataInterface_->getNetworkIIDM().getThreeWindingsTransformer(regulatedComponent.get()->getID());
-      if (stdcxx::areSame(terminal, ThreeWTransfIIDM.getLeg1().getTerminal().get()))
+      if (stdcxx::areSame(terminal, ThreeWTransfIIDM.getLeg1().getTerminal()))
         return ThreeWTransf.get()->getBusInterface1();
-      if (stdcxx::areSame(terminal, ThreeWTransfIIDM.getLeg2().getTerminal().get()))
+      if (stdcxx::areSame(terminal, ThreeWTransfIIDM.getLeg2().getTerminal()))
         return ThreeWTransf.get()->getBusInterface2();
       return ThreeWTransf.get()->getBusInterface3();
     }

@@ -364,9 +364,11 @@ TEST(DataInterfaceTest, ServiceManagerRegulatedBus) {
                                 .setName("SHUNT_NAME")
                                 .setBus(b3.getId())
                                 .setConnectableBus(b3.getId())
-                                .setbPerSection(12.0)
-                                .setCurrentSectionCount(2UL)
+                                .newLinearModel()
+                                .setBPerSection(12.0)
                                 .setMaximumSectionCount(3UL)
+                                .add()
+                                .setSectionCount(2UL)
                                 .add();
 
   powsybl::iidm::ShuntCompensator& shunt2 = vlIIDM1.newShuntCompensator()
@@ -374,9 +376,11 @@ TEST(DataInterfaceTest, ServiceManagerRegulatedBus) {
                                 .setName("SHUNT2_NAME")
                                 .setBus(b1.getId())
                                 .setConnectableBus(b1.getId())
-                                .setbPerSection(12.0)
-                                .setCurrentSectionCount(2UL)
+                                .newLinearModel()
+                                .setBPerSection(12.0)
                                 .setMaximumSectionCount(3UL)
+                                .add()
+                                .setSectionCount(2UL)
                                 .setRegulatingTerminal(stdcxx::Reference<powsybl::iidm::Terminal>(line_.getTerminal2()))
                                 .add();
   powsybl::iidm::StaticVarCompensator& svc = vlIIDM1.newStaticVarCompensator()

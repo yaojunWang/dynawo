@@ -397,9 +397,11 @@ createBusBreakerNetwork(const BusBreakerNetworkProperty& properties) {
         .setName("MyCapacitorShuntCompensator_NAME")
         .setBus("MyBus")
         .setConnectableBus("MyBus")
-        .setbPerSection(2.0)
-        .setCurrentSectionCount(2UL)
+        .newLinearModel()
+        .setBPerSection(2.0)
         .setMaximumSectionCount(3UL)
+        .add()
+        .setSectionCount(2UL)
         .add();
     shuntIIDM.getTerminal().setQ(90.);
   }
@@ -1210,7 +1212,7 @@ TEST(DataInterfaceIIDMTest, testShuntCompensatorIIDM) {
 
   powsybl::iidm::ShuntCompensator& shuntIIDM = network.getShuntCompensator("MyCapacitorShuntCompensator");
   ASSERT_DOUBLE_EQUALS_DYNAWO(shuntIIDM.getTerminal().getQ(), -90000.);
-  ASSERT_DOUBLE_EQUALS_DYNAWO(shuntIIDM.getCurrentSectionCount(), 2UL);
+  ASSERT_DOUBLE_EQUALS_DYNAWO(shuntIIDM.getSectionCount(), 2UL);
   ASSERT_TRUE(shuntIIDM.getTerminal().isConnected());
   boost::shared_ptr<ShuntCompensatorInterfaceIIDM> shunt =
       boost::dynamic_pointer_cast<ShuntCompensatorInterfaceIIDM>(data->findComponent("MyCapacitorShuntCompensator"));
@@ -1219,7 +1221,7 @@ TEST(DataInterfaceIIDMTest, testShuntCompensatorIIDM) {
   shunt->setValue(ShuntCompensatorInterfaceIIDM::VAR_STATE, OPEN);
   data->exportStateVariablesNoReadFromModel();
   ASSERT_DOUBLE_EQUALS_DYNAWO(shuntIIDM.getTerminal().getQ(), 400.);
-  ASSERT_DOUBLE_EQUALS_DYNAWO(shuntIIDM.getCurrentSectionCount(), 1);
+  ASSERT_DOUBLE_EQUALS_DYNAWO(shuntIIDM.getSectionCount(), 1);
   ASSERT_FALSE(shuntIIDM.getTerminal().isConnected());
   shunt->setValue(ShuntCompensatorInterfaceIIDM::VAR_STATE, CLOSED);
   data->exportStateVariablesNoReadFromModel();
@@ -1529,9 +1531,9 @@ TEST(DataInterfaceIIDMTest, testThreeWindingTransformerIIDM) {
   ASSERT_EQ(data->getBusName(FictTwoWTransf2_Id, "@NODE2@"), "VL2_BUS1");
   ASSERT_EQ(data->getBusName(FictTwoWTransf3_Id, "@NODE1@"), "MyTransformer3Winding_FictBUS");
   ASSERT_EQ(data->getBusName(FictTwoWTransf3_Id, "@NODE2@"), "VL3_BUS1");
-  double VNomLeg1 = threeWTIIDM.getLeg1().getTerminal().get().getVoltageLevel().getNominalVoltage();
-  double VNomLeg2 = threeWTIIDM.getLeg2().getTerminal().get().getVoltageLevel().getNominalVoltage();
-  double VNomLeg3 = threeWTIIDM.getLeg3().getTerminal().get().getVoltageLevel().getNominalVoltage();
+  double VNomLeg1 = threeWTIIDM.getLeg1().getTerminal().getVoltageLevel().getNominalVoltage();
+  double VNomLeg2 = threeWTIIDM.getLeg2().getTerminal().getVoltageLevel().getNominalVoltage();
+  double VNomLeg3 = threeWTIIDM.getLeg3().getTerminal().getVoltageLevel().getNominalVoltage();
   double VRebase1 = VNomLeg1 * VNomLeg1 / (threeWTIIDM.getRatedU0() * threeWTIIDM.getRatedU0());
   double VRebase2 = VNomLeg2 * VNomLeg2 / (threeWTIIDM.getRatedU0() * threeWTIIDM.getRatedU0());
   double VRebase3 = VNomLeg3 * VNomLeg3 / (threeWTIIDM.getRatedU0() * threeWTIIDM.getRatedU0());

@@ -607,7 +607,7 @@ DataInterfaceIIDM::convertThreeWindingsTransformers(powsybl::iidm::ThreeWindings
     fictTwoWTransf.get()->setBusInterface1(fictBus);
     fictTwoWTransf.get()->setBusInterface2(findBusInterface(leg.get().getTerminal()));
     fictTwoWTransf.get()->setVoltageLevelInterface1(vl);
-    fictTwoWTransf.get()->setVoltageLevelInterface2(findVoltageLevelInterface(leg.get().getTerminal().get().getVoltageLevel().getId()));
+    fictTwoWTransf.get()->setVoltageLevelInterface2(findVoltageLevelInterface(leg.get().getTerminal().getVoltageLevel().getId()));
     // add phase tapChanger and steps if exists
     if (leg.get().hasPhaseTapChanger()) {
       shared_ptr<PhaseTapChangerInterfaceIIDM> tapChanger(new PhaseTapChangerInterfaceIIDM(leg.get().getPhaseTapChanger()));
@@ -618,7 +618,7 @@ DataInterfaceIIDM::convertThreeWindingsTransformers(powsybl::iidm::ThreeWindings
     if (leg.get().hasRatioTapChanger()) {
       string side;
       if (leg.get().getRatioTapChanger().getRegulationTerminal() &&
-          stdcxx::areSame(leg.get().getTerminal().get(), leg.get().getRatioTapChanger().getRegulationTerminal().get())) {
+          stdcxx::areSame(leg.get().getTerminal(), leg.get().getRatioTapChanger().getRegulationTerminal().get())) {
         side = "TWO";
         shared_ptr<RatioTapChangerInterfaceIIDM> tapChanger(new RatioTapChangerInterfaceIIDM(leg.get().getRatioTapChanger(), side));
         fictTwoWTransf->setRatioTapChanger(tapChanger);
