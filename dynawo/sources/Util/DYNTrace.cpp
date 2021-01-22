@@ -125,7 +125,7 @@ void Trace::addAppenders(const std::vector<TraceAppender>& appenders) {
 
 void Trace::addAppenders_(const std::vector<TraceAppender>& appenders) {
   // remove old appenders (console_log)
-  Trace::resetCustomAppenders();
+  resetCustomAppenders_();
 
   logging::attributes::current_thread_id::value_type currentId =
     logging::attributes::current_thread_id().get_value().extract<logging::attributes::current_thread_id::value_type>().get();

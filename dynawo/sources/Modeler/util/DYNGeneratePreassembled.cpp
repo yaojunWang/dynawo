@@ -192,7 +192,7 @@ int main(int argc, char ** argv) {
     }
 
     if (libValid) {
-      ::TraceInfo(Trace::compile()) << DYNLog(PreassembledModelGenerated, solist.size()) << Trace::endline;
+      Trace::info(Trace::compile()) << DYNLog(PreassembledModelGenerated, solist.size()) << Trace::endline;
     } else {
       TraceInfo(Trace::compile()) << DYNLog(InvalidSharedObjects, notValidsolist.size()) << Trace::endline;
       string libList;

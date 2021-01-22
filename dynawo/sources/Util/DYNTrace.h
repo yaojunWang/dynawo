@@ -225,6 +225,57 @@ class Trace {
     return slv >= defaultLevel_;
   }
 
+  /**
+ * @brief Get debug severity level stream.
+ *
+ * Get a debug severity level stream for logging.
+ * @code Trace::debug("MyTag") << "Hello world!" << Trace::endline; @endcode
+ * @param tag : Tag added to the log, can be used as a filter in logging sinks.
+ * @return A TraceStream that can be used for stream-like logging.
+ */
+  static TraceStream debug(const std::string& tag = "");
+
+  /**
+   * @brief Get info severity level stream.
+   *
+   * Get an info severity level stream for logging.
+   * @code Trace::info("MyTag") << "Hello world!" << Trace::endline; @endcode
+   * @param tag : Tag added to the log, can be used as a filter in logging sinks.
+   * @return A TraceStream that can be used for stream-like logging.
+   */
+  static TraceStream info(const std::string& tag = "");
+
+  /**
+    * @brief Get error severity level stream.
+    *
+    * Get an error severity level stream for logging.
+    * @code Trace::eror("MyTag") << "Hello world!" << Trace::endline; @endcode
+    * @param tag : Tag added to the log, can be used as a filter in logging sinks.
+    * @return A TraceStream that can be used for stream-like logging.
+    */
+  static TraceStream error(const std::string& tag = "");
+
+  /**
+   * @brief Get warning severity level stream.
+   *
+   * Get a warning severity level stream for logging.
+   * @code Trace::warn("MyTag") << "Hello world!" << Trace::endline; @endcode
+   * @param tag : Tag added to the log, can be used as a filter in logging sinks.
+   * @return A TraceStream that can be used for stream-like logging.
+   */
+  static TraceStream warn(const std::string& tag = "");
+
+  /**
+  * @brief test if a log exists
+  *
+  * This tests only the file logs
+  *
+  * @param tag : Tag added to the log, can be used as a filter in logging sinks.
+  * @param slv : Severity level.
+  * @return true if this log with this level exists
+  */
+  static bool logExists(const std::string& tag, SeverityLevel slv);
+
  private:
   static const SeverityLevel defaultLevel_;  ///< Default log level for standard output
 
@@ -235,57 +286,6 @@ class Trace {
   * @returns static instance
   */
   static Trace& instance();
-
-    /**
-   * @brief test if a log exists
-   *
-   * This tests only the file logs
-   *
-   * @param tag : Tag added to the log, can be used as a filter in logging sinks.
-   * @param slv : Severity level.
-   * @return true if this log with this level exists
-   */
-  static bool logExists(const std::string& tag, SeverityLevel slv);
-
-  /**
-   * @brief Get debug severity level stream.
-   *
-   * Get a debug severity level stream for logging.
-   * @code Trace::debug("MyTag") << "Hello world!" << Trace::endline; @endcode
-   * @param tag : Tag added to the log, can be used as a filter in logging sinks.
-   * @return A TraceStream that can be used for stream-like logging.
-   */
-  static TraceStream debug(const std::string& tag);
-
-  /**
-   * @brief Get info severity level stream.
-   *
-   * Get an info severity level stream for logging.
-   * @code Trace::info("MyTag") << "Hello world!" << Trace::endline; @endcode
-   * @param tag : Tag added to the log, can be used as a filter in logging sinks.
-   * @return A TraceStream that can be used for stream-like logging.
-   */
-  static TraceStream info(const std::string& tag);
-
-  /**
-    * @brief Get error severity level stream.
-    *
-    * Get an error severity level stream for logging.
-    * @code Trace::eror("MyTag") << "Hello world!" << Trace::endline; @endcode
-    * @param tag : Tag added to the log, can be used as a filter in logging sinks.
-    * @return A TraceStream that can be used for stream-like logging.
-    */
-  static TraceStream error(const std::string& tag);
-
-  /**
-   * @brief Get warning severity level stream.
-   *
-   * Get a warning severity level stream for logging.
-   * @code Trace::warn("MyTag") << "Hello world!" << Trace::endline; @endcode
-   * @param tag : Tag added to the log, can be used as a filter in logging sinks.
-   * @return A TraceStream that can be used for stream-like logging.
-   */
-  static TraceStream warn(const std::string& tag);
 
   /**
    * @brief Add a log to logging core.

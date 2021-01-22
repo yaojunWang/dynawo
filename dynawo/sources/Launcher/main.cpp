@@ -133,14 +133,14 @@ int main(int argc, char ** argv) {
     return -1;
   } catch (const xml::sax::parser::ParserException& exp) {
     std::cerr << DYNLog(XmlParsingError, jobsFileName, exp.what()) << std::endl;
-    TraceError() << DYNLog(XmlParsingError, jobsFileName, exp.what()) << Trace::endline;
+    Trace::error() << DYNLog(XmlParsingError, jobsFileName, exp.what()) << Trace::endline;
     return -1;
   } catch (std::exception& e) {
     std::cerr << "Exception: " << e.what() << std::endl;
     return -1;
   } catch (...) {
     std::cerr << DYNLog(UnexpectedError) << std::endl;
-    TraceError() << __FILE__ << " " << __LINE__ << " " << DYNLog(UnexpectedError) << Trace::endline;
+    Trace::error() << __FILE__ << " " << __LINE__ << " " << DYNLog(UnexpectedError) << Trace::endline;
     return -1;
   }
   return 0;

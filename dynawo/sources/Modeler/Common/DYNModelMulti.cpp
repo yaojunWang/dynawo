@@ -328,7 +328,7 @@ ModelMulti::printParameterValues() const {
 #if defined(_DEBUG_) || defined(PRINT_TIMERS)
   Timer timer("ModelMulti::printParameterValues");
 #endif
-  ::TraceDebug(Trace::parameters()) << "This file is organized as follows: "<< Trace::endline <<
+  Trace::debug(Trace::parameters()) << "This file is organized as follows: "<< Trace::endline <<
       "  -- For each model, initial and dynamic models parameters values before local initialization"<< Trace::endline <<
       "  -- For each model, dynamic models parameters values after local initialization"<< Trace::endline <<
       "caption: "<< Trace::endline <<
@@ -713,7 +713,7 @@ ModelMulti::getModelParameterValue(const string& curveModelName, const string& c
       return;
     }
   }
-  ::TraceWarn() << DYNLog(ModelMultiParamNotFound, curveModelName, curveVariable) << Trace::endline;
+  Trace::warn() << DYNLog(ModelMultiParamNotFound, curveModelName, curveVariable) << Trace::endline;
   return;
 }
 
@@ -739,7 +739,7 @@ ModelMulti::connectElements(shared_ptr<SubModel> &subModel1, const string &name1
     if (isState1 || isState2)
       createConnection(subModel1, variablesToConnect[i].first, subModel2, variablesToConnect[i].second);
     else
-      ::TraceWarn() << DYNLog(CalcVarConnectionIgnored, variablesToConnect[i].first, variablesToConnect[i].second) << Trace::endline;
+      Trace::warn() << DYNLog(CalcVarConnectionIgnored, variablesToConnect[i].first, variablesToConnect[i].second) << Trace::endline;
   }
 }
 
@@ -902,7 +902,7 @@ ModelMulti::checkConnects() {
       if (yType_[yDeb + j] == EXTERNAL) {
         const bool isConnected = connectorContainer_->isConnected(yDeb + j);
         if (!isConnected) {
-          ::TraceInfo() << DYNLog(SubModelExtVar, sub->name(), name[j]) << Trace::endline;
+          Trace::info() << DYNLog(SubModelExtVar, sub->name(), name[j]) << Trace::endline;
           connectOk = false;
           break;
         }
@@ -1033,21 +1033,21 @@ ModelMulti::initCurves(shared_ptr<curves::Curve>& curve) {
   if (subModel) {
     if (!props.isNetwork_) {   // found model's ID in the composed models.
       if (props.isDynParam_) {   // case 2: curve's variable curve is a parameter in submodel
-        ::TraceDebug() << DYNLog(AddingCurveParam, modelName, variable) << Trace::endline;
+        Trace::debug() << DYNLog(AddingCurveParam, modelName, variable) << Trace::endline;
         curve->setAvailable(true);
         curve->setFoundVariableName(variable);
         curve->setAsParameterCurve(true);   // This is a parameter curve
         subModel->addParameterCurve(curve);
         return true;
       } else if (props.variableNameInSubModel_ == variable) {   // found exact curve name
-        ::TraceDebug() << DYNLog(AddingCurve, modelName, variable) << Trace::endline;
+        Trace::debug() << DYNLog(AddingCurve, modelName, variable) << Trace::endline;
         curve->setAvailable(true);
         curve->setFoundVariableName(variable);
         curve->setAsParameterCurve(false);   // This is a variable curve
         subModel->addCurve(curve);
         return true;
       } else if (props.variableNameInSubModel_ == variableNameBis) {
-        ::TraceDebug() << DYNLog(AddingCurveOutput, modelName, variable, variableNameBis) << Trace::endline;
+        Trace::debug() << DYNLog(AddingCurveOutput, modelName, variable, variableNameBis) << Trace::endline;
         curve->setAvailable(true);
         curve->setFoundVariableName(variableNameBis);
         subModel->addCurve(curve);
@@ -1058,7 +1058,7 @@ ModelMulti::initCurves(shared_ptr<curves::Curve>& curve) {
       shared_ptr<SubModel> modelNetwork = subModel;
       string name = modelName + "_" + variable;
       if (props.variableNameInSubModel_ == name) {
-        ::TraceDebug() << DYNLog(AddingCurveOutput, modelName, variable, name) << Trace::endline;
+        Trace::debug() << DYNLog(AddingCurveOutput, modelName, variable, name) << Trace::endline;
         curve->setAvailable(true);
         curve->setFoundVariableName(name);
         modelNetwork->addCurve(curve);
@@ -1066,7 +1066,7 @@ ModelMulti::initCurves(shared_ptr<curves::Curve>& curve) {
       } else {
         string name2 = name + "_value";
         if (props.variableNameInSubModel_ == name2) {   // find name2 = name_value
-          ::TraceDebug() << DYNLog(AddingCurveOutput, modelName, variable, name2) << Trace::endline;
+          Trace::debug() << DYNLog(AddingCurveOutput, modelName, variable, name2) << Trace::endline;
           curve->setAvailable(true);
           curve->setFoundVariableName(name2);
           modelNetwork->addCurve(curve);
@@ -1076,7 +1076,7 @@ ModelMulti::initCurves(shared_ptr<curves::Curve>& curve) {
     }
   }
 
-  ::TraceWarn() << DYNLog(CurveNotAdded, modelName, variable) << Trace::endline;
+  Trace::warn() << DYNLog(CurveNotAdded, modelName, variable) << Trace::endline;
   return false;
 }
 
@@ -1138,84 +1138,84 @@ ModelMulti::fillVariable(boost::shared_ptr<finalState::Variable>& /*variable*/) 
 
 void ModelMulti::printVariableNames() {
   int nVar = 0;
-  ::TraceDebug(Trace::variables()) << "------------------------------" << Trace::endline;
-  ::TraceDebug(Trace::variables()) << "X variables init" << Trace::endline;
-  ::TraceDebug(Trace::variables()) << "------------------------------" << Trace::endline;
+  Trace::debug(Trace::variables()) << "------------------------------" << Trace::endline;
+  Trace::debug(Trace::variables()) << "X variables init" << Trace::endline;
+  Trace::debug(Trace::variables()) << "------------------------------" << Trace::endline;
   for (unsigned int i = 0; i < subModels_.size(); ++i) {
     const std::vector<std::string>& xNames = subModels_[i]->xNamesInit();
     for (unsigned int j = 0; j < xNames.size(); ++j) {
-       ::TraceDebug(Trace::variables()) << nVar << " " << subModels_[i]->name() << "_" << xNames[j] << Trace::endline;
+       Trace::debug(Trace::variables()) << nVar << " " << subModels_[i]->name() << "_" << xNames[j] << Trace::endline;
        ++nVar;
     }
   }
   nVar = 0;
-  ::TraceDebug(Trace::variables()) << "------------------------------" << Trace::endline;
-  ::TraceDebug(Trace::variables()) << "X calculated variables init" << Trace::endline;
-  ::TraceDebug(Trace::variables()) << "------------------------------" << Trace::endline;
+  Trace::debug(Trace::variables()) << "------------------------------" << Trace::endline;
+  Trace::debug(Trace::variables()) << "X calculated variables init" << Trace::endline;
+  Trace::debug(Trace::variables()) << "------------------------------" << Trace::endline;
   for (unsigned int i = 0; i < subModels_.size(); ++i) {
     const std::vector<std::string>& xNames = subModels_[i]->getCalculatedVarNamesInit();
     for (unsigned int j = 0; j < xNames.size(); ++j) {
-       ::TraceDebug(Trace::variables()) << nVar << " " << subModels_[i]->name() << "_" << xNames[j] << Trace::endline;
+       Trace::debug(Trace::variables()) << nVar << " " << subModels_[i]->name() << "_" << xNames[j] << Trace::endline;
        ++nVar;
     }
   }
   nVar = 0;
-  ::TraceDebug(Trace::variables()) << "------------------------------" << Trace::endline;
-  ::TraceDebug(Trace::variables()) << "Z variables init" << Trace::endline;
-  ::TraceDebug(Trace::variables()) << "------------------------------" << Trace::endline;
+  Trace::debug(Trace::variables()) << "------------------------------" << Trace::endline;
+  Trace::debug(Trace::variables()) << "Z variables init" << Trace::endline;
+  Trace::debug(Trace::variables()) << "------------------------------" << Trace::endline;
   for (unsigned int i = 0; i < subModels_.size(); ++i) {
     const std::vector<std::string>& zNames = subModels_[i]->zNamesInit();
     for (unsigned int j = 0; j < zNames.size(); ++j) {
-      ::TraceDebug(Trace::variables()) << nVar << " " << subModels_[i]->name() << "_" << zNames[j] << Trace::endline;
+      Trace::debug(Trace::variables()) << nVar << " " << subModels_[i]->name() << "_" << zNames[j] << Trace::endline;
       ++nVar;
     }
   }
   nVar = 0;
-  ::TraceDebug(Trace::variables()) << "------------------------------" << Trace::endline;
-  ::TraceDebug(Trace::variables()) << "X variables" << Trace::endline;
-  ::TraceDebug(Trace::variables()) << "------------------------------" << Trace::endline;
+  Trace::debug(Trace::variables()) << "------------------------------" << Trace::endline;
+  Trace::debug(Trace::variables()) << "X variables" << Trace::endline;
+  Trace::debug(Trace::variables()) << "------------------------------" << Trace::endline;
   for (unsigned int i = 0; i < subModels_.size(); ++i) {
     const std::vector<std::string>& xNames = subModels_[i]->xNames();
     for (unsigned int j = 0; j < xNames.size(); ++j) {
       std::string varName = subModels_[i]->name() + "_" + xNames[j];
-      ::TraceDebug(Trace::variables()) << nVar << " " << varName << Trace::endline;
+      Trace::debug(Trace::variables()) << nVar << " " << varName << Trace::endline;
       ++nVar;
     }
   }
   for (unsigned int i = 0; i < subModels_.size(); ++i) {
     const std::vector<std::pair<std::string, std::pair<std::string, bool > > >& xAlias = subModels_[i]->xAliasesNames();
     for (unsigned int j = 0; j < xAlias.size(); ++j) {
-      ::TraceDebug(Trace::variables()) << subModels_[i]->name() << "_" << xAlias[j].first << " is an alias of " <<
+      Trace::debug(Trace::variables()) << subModels_[i]->name() << "_" << xAlias[j].first << " is an alias of " <<
           subModels_[i]->name() << "_" << xAlias[j].second.first << " (negated: " << xAlias[j].second.second << ")" << Trace::endline;
     }
   }
   nVar = 0;
-  ::TraceDebug(Trace::variables()) << "------------------------------" << Trace::endline;
-  ::TraceDebug(Trace::variables()) << "X calculated variables" << Trace::endline;
-  ::TraceDebug(Trace::variables()) << "------------------------------" << Trace::endline;
+  Trace::debug(Trace::variables()) << "------------------------------" << Trace::endline;
+  Trace::debug(Trace::variables()) << "X calculated variables" << Trace::endline;
+  Trace::debug(Trace::variables()) << "------------------------------" << Trace::endline;
   for (unsigned int i = 0; i < subModels_.size(); ++i) {
     const std::vector<std::string>& xNames = subModels_[i]->getCalculatedVarNames();
     for (unsigned int j = 0; j < xNames.size(); ++j) {
       std::string varName = subModels_[i]->name() + "_" + xNames[j];
-      ::TraceDebug(Trace::variables()) << nVar << " " << varName << Trace::endline;
+      Trace::debug(Trace::variables()) << nVar << " " << varName << Trace::endline;
       ++nVar;
     }
   }
   nVar = 0;
-  ::TraceDebug(Trace::variables()) << "------------------------------" << Trace::endline;
-  ::TraceDebug(Trace::variables()) << "Z variables" << Trace::endline;
-  ::TraceDebug(Trace::variables()) << "------------------------------" << Trace::endline;
+  Trace::debug(Trace::variables()) << "------------------------------" << Trace::endline;
+  Trace::debug(Trace::variables()) << "Z variables" << Trace::endline;
+  Trace::debug(Trace::variables()) << "------------------------------" << Trace::endline;
   for (unsigned int i = 0; i < subModels_.size(); ++i) {
     const std::vector<std::string>& zNames = subModels_[i]->zNames();
     for (unsigned int j = 0; j < zNames.size(); ++j) {
-       ::TraceDebug(Trace::variables()) << nVar << " " << subModels_[i]->name() << "_" << zNames[j] << Trace::endline;
+       Trace::debug(Trace::variables()) << nVar << " " << subModels_[i]->name() << "_" << zNames[j] << Trace::endline;
        ++nVar;
     }
   }
   for (unsigned int i = 0; i < subModels_.size(); ++i) {
     const std::vector<std::pair<std::string, std::pair<std::string, bool > > >& zAlias = subModels_[i]->zAliasesNames();
     for (unsigned int j = 0; j < zAlias.size(); ++j) {
-      ::TraceDebug(Trace::variables()) << subModels_[i]->name() << "_" << zAlias[j].first << " is an alias of "
+      Trace::debug(Trace::variables()) << subModels_[i]->name() << "_" << zAlias[j].first << " is an alias of "
           << subModels_[i]->name() << "_" << zAlias[j].second.first << " (negated: " << zAlias[j].second.second << ")" << Trace::endline;
     }
   }
@@ -1225,24 +1225,24 @@ void ModelMulti::printEquations() {
   bool isInitProcessBefore = subModels_[0]->getIsInitProcess();
   setIsInitProcess(true);
   int nVar = 0;
-  ::TraceDebug(Trace::equations()) << "------------------------------" << Trace::endline;
-  ::TraceDebug(Trace::equations()) << "Equations init" << Trace::endline;
-  ::TraceDebug(Trace::equations()) << "------------------------------" << Trace::endline;
+  Trace::debug(Trace::equations()) << "------------------------------" << Trace::endline;
+  Trace::debug(Trace::equations()) << "Equations init" << Trace::endline;
+  Trace::debug(Trace::equations()) << "------------------------------" << Trace::endline;
   for (unsigned int i = 0; i < subModels_.size(); ++i) {
     for (unsigned int j = 0 ; j < subModels_[i]->sizeFInit() ; ++j) {
-      ::TraceDebug(Trace::equations()) << nVar << " " << subModels_[i]->getFequationByLocalIndex(j) <<
+      Trace::debug(Trace::equations()) << nVar << " " << subModels_[i]->getFequationByLocalIndex(j) <<
           " model: " << subModels_[i]->name() <<  Trace::endline;
       ++nVar;
     }
   }
   setIsInitProcess(false);
   nVar = 0;
-  ::TraceDebug(Trace::equations()) << "------------------------------" << Trace::endline;
-  ::TraceDebug(Trace::equations()) << "Equations" << Trace::endline;
-  ::TraceDebug(Trace::equations()) << "------------------------------" << Trace::endline;
+  Trace::debug(Trace::equations()) << "------------------------------" << Trace::endline;
+  Trace::debug(Trace::equations()) << "Equations" << Trace::endline;
+  Trace::debug(Trace::equations()) << "------------------------------" << Trace::endline;
   for (unsigned int i = 0; i < subModels_.size(); ++i) {
     for (unsigned int j = 0 ; j < subModels_[i]->sizeF() ; ++j) {
-      ::TraceDebug(Trace::equations()) << nVar << " " << subModels_[i]->getFequationByLocalIndex(j) <<
+      Trace::debug(Trace::equations()) << nVar << " " << subModels_[i]->getFequationByLocalIndex(j) <<
           " model: " << subModels_[i]->name() << Trace::endline;
       ++nVar;
     }
@@ -1251,24 +1251,24 @@ void ModelMulti::printEquations() {
 
   setIsInitProcess(true);
   nVar = 0;
-  ::TraceDebug(Trace::equations()) << "------------------------------" << Trace::endline;
-  ::TraceDebug(Trace::equations()) << "Roots init" << Trace::endline;
-  ::TraceDebug(Trace::equations()) << "------------------------------" << Trace::endline;
+  Trace::debug(Trace::equations()) << "------------------------------" << Trace::endline;
+  Trace::debug(Trace::equations()) << "Roots init" << Trace::endline;
+  Trace::debug(Trace::equations()) << "------------------------------" << Trace::endline;
   for (unsigned int i = 0; i < subModels_.size(); ++i) {
     for (unsigned int j = 0 ; j < subModels_[i]->sizeGInit() ; ++j) {
-      ::TraceDebug(Trace::equations()) << nVar << " " << subModels_[i]->getGequationByLocalIndex(j) <<
+      Trace::debug(Trace::equations()) << nVar << " " << subModels_[i]->getGequationByLocalIndex(j) <<
           " model: " << subModels_[i]->name() <<  Trace::endline;
       ++nVar;
     }
   }
   setIsInitProcess(false);
   nVar = 0;
-  ::TraceDebug(Trace::equations()) << "------------------------------" << Trace::endline;
-  ::TraceDebug(Trace::equations()) << "Roots" << Trace::endline;
-  ::TraceDebug(Trace::equations()) << "------------------------------" << Trace::endline;
+  Trace::debug(Trace::equations()) << "------------------------------" << Trace::endline;
+  Trace::debug(Trace::equations()) << "Roots" << Trace::endline;
+  Trace::debug(Trace::equations()) << "------------------------------" << Trace::endline;
   for (unsigned int i = 0; i < subModels_.size(); ++i) {
     for (unsigned int j = 0 ; j < subModels_[i]->sizeG() ; ++j) {
-      ::TraceDebug(Trace::equations()) << nVar << " " << subModels_[i]->getGequationByLocalIndex(j) <<
+      Trace::debug(Trace::equations()) << nVar << " " << subModels_[i]->getGequationByLocalIndex(j) <<
           " model: " << subModels_[i]->name() << Trace::endline;
       ++nVar;
     }
